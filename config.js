@@ -31,10 +31,10 @@ const DEFAULT_CONFIG = {
     webhookVerifyToken: crypto.randomBytes(16).toString('hex')
   },
   channel: {
-    enabled: true,
-    link: 'https://whatsapp.com/channel/0029VbC4hP4GZNCor76Om40q',
-    jid: '120363423706225795@newsletter',
-    name: 'Sacro Cuore Asti',
+    enabled: false,
+    link: '',
+    jid: '',
+    name: '',
     publishedPostIds: []
   },
   logs: []

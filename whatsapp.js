@@ -113,6 +113,7 @@ function normalizeNumber(numero) {
 }
 
 const recentMessages = new Map();
+const detectedChannels = new Map();
 
 function storeRecentMessage(id, msg) {
   if (!id || !msg) return;
@@ -207,7 +208,7 @@ async function startWhatsApp() {
         }
         if (msg.key?.remoteJid) registerContact(msg.key.remoteJid);
 
-        // Rileva se il messaggio è inoltrato da un canale WhatsApp (Newsletter)
+        // Rileva se il messaggio proviene o è inoltrato da un canale WhatsApp (Newsletter)
         const contextInfo = msg.message?.extendedTextMessage?.contextInfo ||
                             msg.message?.imageMessage?.contextInfo ||
                             msg.message?.videoMessage?.contextInfo ||
@@ -218,31 +219,14 @@ async function startWhatsApp() {
         if (newsletterInfo?.newsletterJid) {
           const jid = newsletterInfo.newsletterJid;
           const name = newsletterInfo.newsletterName || 'Canale WhatsApp';
-          console.log(`🎉 RILEVATO JID CANALE DALL'INOLTRO: ${jid} (${name})`);
-          const config = getConfig();
-          updateConfig({
-            channel: {
-              ...config.channel,
-              jid,
-              name: name || config.channel?.name || 'Canale WhatsApp',
-              enabled: true
-            }
-          });
-          addLog('channel', `JID Canale WhatsApp rilevato automaticamente: ${jid} (${name})`);
+          detectedChannels.set(jid, { jid, name, link: '' });
+          console.log(`📡 Rilevato canale WhatsApp: ${jid} (${name})`);
         }
 
-        // Se il messaggio proviene direttamente da un canale
         if (msg.key?.remoteJid?.endsWith('@newsletter')) {
-          console.log(`🎉 RILEVATO JID CANALE DIRETTO: ${msg.key.remoteJid}`);
-          const config = getConfig();
-          updateConfig({
-            channel: {
-              ...config.channel,
-              jid: msg.key.remoteJid,
-              enabled: true
-            }
-          });
-          addLog('channel', `JID Canale WhatsApp rilevato: ${msg.key.remoteJid}`);
+          const jid = msg.key.remoteJid;
+          detectedChannels.set(jid, { jid, name: 'Canale WhatsApp', link: '' });
+          console.log(`📡 Rilevato canale WhatsApp diretto: ${jid}`);
         }
 
         // Traccia in tempo reale tutti gli stati pubblicati dall'account (da app, web o bot)
@@ -697,48 +681,28 @@ async function safeQuery(query, timeoutMs = 4000) {
   ]);
 }
 
-// Ottieni i canali di cui l'account connesso è amministratore, iscritto o noti nei log
+// Ottieni i canali di cui l'account connesso è amministratore, iscritto o rilevati
 async function getMyNewsletters() {
   const config = getConfig();
   const channelMap = new Map();
 
-  // 1. Canale attualmente salvato
+  // 1. Canale attualmente salvato dall'utente nelle impostazioni (se presente)
   if (config.channel?.jid) {
     channelMap.set(config.channel.jid, {
       jid: config.channel.jid,
-      name: config.channel.name || 'Canale Attivo',
+      name: config.channel.name || 'Canale Configurato',
       link: config.channel.link || ''
     });
   }
 
-  // 2. Canali storici noti
-  channelMap.set('120363423706225795@newsletter', {
-    jid: '120363423706225795@newsletter',
-    name: 'Sacro Cuore Asti',
-    link: 'https://whatsapp.com/channel/0029VbC4hP4GZNCor76Om40q'
-  });
-  channelMap.set('120363432155030916@newsletter', {
-    jid: '120363432155030916@newsletter',
-    name: 'test bot',
-    link: ''
-  });
-
-  // 3. Estrai canali apparsi nei log
-  if (Array.isArray(config.logs)) {
-    for (const log of config.logs) {
-      const text = `${log.message || ''} ${JSON.stringify(log.details || {})}`;
-      const matches = text.match(/(120363\d{10,18}@newsletter)/g);
-      if (matches) {
-        for (const jid of matches) {
-          if (!channelMap.has(jid)) {
-            channelMap.set(jid, { jid, name: jid === '120363423706225795@newsletter' ? 'Sacro Cuore Asti' : 'Canale WhatsApp', link: '' });
-          }
-        }
-      }
+  // 2. Canali rilevati dinamicamente (da messaggi o chat)
+  for (const [jid, info] of detectedChannels) {
+    if (!channelMap.has(jid)) {
+      channelMap.set(jid, info);
     }
   }
 
-  // 4. Se WhatsApp è connesso, interroga Baileys per canali admin e iscritti
+  // 3. Se WhatsApp è connesso, interroga Baileys per canali admin e iscritti
   if (connectionState === 'CONNECTED' && sock) {
     for (const queryType of ['admin', 'subscribed']) {
       try {
@@ -777,6 +741,7 @@ async function getMyNewsletters() {
                 }
               }
               channelMap.set(jid, { jid, name, link: '' });
+              detectedChannels.set(jid, { jid, name, link: '' });
             }
           }
           if (Array.isArray(node.content)) {
@@ -793,7 +758,7 @@ async function getMyNewsletters() {
   return Array.from(channelMap.values());
 }
 
-// Risolve il link o codice di un canale WhatsApp in JID
+// Risolve il link o codice di un canale WhatsApp in JID dinamicamente
 async function resolveChannel(input) {
   let str = String(input || '').trim();
   if (!str) throw new Error('Inserisci un link o un codice canale');
@@ -807,17 +772,7 @@ async function resolveChannel(input) {
 
   if (!inviteCode) throw new Error('Codice canale non riconosciuto dal link.');
 
-  // Mappatura canale ufficiale Parrocchia Sacro Cuore Asti
-  if (inviteCode === '0029VbC4hP4GZNCor76Om40q') {
-    return {
-      jid: '120363423706225795@newsletter',
-      name: 'Sacro Cuore Asti',
-      inviteCode,
-      link: 'https://whatsapp.com/channel/0029VbC4hP4GZNCor76Om40q'
-    };
-  }
-
-  // Interrogazione IQ protocollo newsletter
+  // Interrogazione IQ protocollo newsletter con WhatsApp
   if (connectionState === 'CONNECTED' && sock) {
     const queries = [
       {
@@ -857,6 +812,7 @@ async function resolveChannel(input) {
         findJidAndName(res);
 
         if (jid) {
+          detectedChannels.set(jid, { jid, name, link: `https://whatsapp.com/channel/${inviteCode}` });
           return { jid, name, inviteCode };
         }
       } catch (iqErr) {
@@ -877,8 +833,20 @@ async function resolveChannel(input) {
 
     const jidMatch = html.match(/(120363\d{10,18}@newsletter)/i);
     if (jidMatch) {
+      detectedChannels.set(jidMatch[1], { jid: jidMatch[1], name: channelName, link: `https://whatsapp.com/channel/${inviteCode}` });
       return { jid: jidMatch[1], name: channelName, inviteCode };
     }
+
+    return {
+      name: channelName,
+      inviteCode,
+      needJid: true,
+      message: `Trovato canale "${channelName}". Inserisci il JID numerico (es. 120363...@newsletter) per completare il collegamento.`
+    };
+  } catch (webErr) {}
+
+  throw new Error(`Impossibile risolvere automaticamente l'invito. Inserisci direttamente il JID del canale (es. 120363...@newsletter).`);
+}
 
     return {
       name: channelName,
