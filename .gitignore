@@ -1,6 +1,4 @@
 node_modules/
-baileys_auth_info
-auth_info_baileys
 data/*
 !data/.gitkeep
 cookies.txt
