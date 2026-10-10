@@ -112,6 +112,17 @@ function normalizeNumber(numero) {
   return `${cleanUser}@s.whatsapp.net`;
 }
 
+const recentMessages = new Map();
+
+function storeRecentMessage(id, msg) {
+  if (!id || !msg) return;
+  recentMessages.set(id, msg);
+  if (recentMessages.size > 500) {
+    const firstKey = recentMessages.keys().next().value;
+    recentMessages.delete(firstKey);
+  }
+}
+
 async function getStatus() {
   return {
     state: connectionState,
@@ -159,7 +170,13 @@ async function startWhatsApp() {
       keepAliveIntervalMs: 25000,
       emitOwnEvents: true,
       markOnlineOnConnect: true,
-      generateHighQualityLinkPreview: false
+      generateHighQualityLinkPreview: false,
+      getMessage: async (key) => {
+        if (key && key.id && recentMessages.has(key.id)) {
+          return recentMessages.get(key.id);
+        }
+        return undefined;
+      }
     });
 
     sock.ev.on('creds.update', saveCreds);
@@ -185,6 +202,9 @@ async function startWhatsApp() {
 
     sock.ev.on('messages.upsert', (m) => {
       for (const msg of m.messages || []) {
+        if (msg.key?.id && msg.message) {
+          storeRecentMessage(msg.key.id, msg.message);
+        }
         if (msg.key?.remoteJid) registerContact(msg.key.remoteJid);
 
         // Rileva se il messaggio è inoltrato da un canale WhatsApp (Newsletter)
@@ -445,6 +465,9 @@ async function sendMessage(numero, testo) {
 
   try {
     const result = await sock.sendMessage(jid, { text: String(testo) });
+    if (result?.key?.id && result?.message) {
+      storeRecentMessage(result.key.id, result.message);
+    }
     addLog('send', `Messaggio inviato a ${numero}`, {
       jid,
       preview: String(testo).substring(0, 60),
