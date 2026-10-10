@@ -702,8 +702,53 @@ async function getMyNewsletters() {
     }
   }
 
-  // 3. Se WhatsApp è connesso, interroga Baileys per canali admin e iscritti
+  // 3. Se WhatsApp è connesso, interroga i canali tramite w:mex e query legacy
   if (connectionState === 'CONNECTED' && sock) {
+    // 3a. Query Mex per tutti i canali iscritti/gestiti
+    try {
+      const iqSubscribed = {
+        tag: 'iq',
+        attrs: {
+          id: sock.generateMessageTag(),
+          type: 'get',
+          xmlns: 'w:mex',
+          to: 's.whatsapp.net'
+        },
+        content: [
+          {
+            tag: 'query',
+            attrs: { query_id: '6388546374527196' },
+            content: Buffer.from(JSON.stringify({ variables: {} }))
+          }
+        ]
+      };
+      const resMex = await safeQuery(iqSubscribed, 4000);
+      function extractSubscribed(node) {
+        if (!node) return;
+        if (node.tag === 'result' && node.content) {
+          try {
+            const text = Buffer.isBuffer(node.content) ? node.content.toString('utf8') : String(node.content);
+            const parsed = JSON.parse(text);
+            const list = parsed.data?.xwa2_newsletter_subscribed || [];
+            for (const item of list) {
+              if (item && item.id) {
+                const jid = item.id.endsWith('@newsletter') ? item.id : `${item.id}@newsletter`;
+                const name = item.thread_metadata?.name?.text || item.name || 'Canale WhatsApp';
+                const link = item.thread_metadata?.invite ? `https://whatsapp.com/channel/${item.thread_metadata.invite}` : '';
+                channelMap.set(jid, { jid, name, link });
+                detectedChannels.set(jid, { jid, name, link });
+              }
+            }
+          } catch (e) {}
+        }
+        if (Array.isArray(node.content)) {
+          for (const c of node.content) extractSubscribed(c);
+        }
+      }
+      extractSubscribed(resMex);
+    } catch (mexErr) {}
+
+    // 3b. Query stanza standard 'newsletter'
     for (const queryType of ['admin', 'subscribed']) {
       try {
         const query = {
@@ -749,9 +794,7 @@ async function getMyNewsletters() {
           }
         }
         extractNewsletters(res);
-      } catch (err) {
-        // Ignora timeout query
-      }
+      } catch (err) {}
     }
   }
 
@@ -772,9 +815,113 @@ async function resolveChannel(input) {
 
   if (!inviteCode) throw new Error('Codice canale non riconosciuto dal link.');
 
-  // Interrogazione IQ protocollo newsletter con WhatsApp
+  // Controlla se è già presente in memoria tra i canali rilevati
+  for (const [knownJid, info] of detectedChannels.entries()) {
+    if (info.link && info.link.includes(inviteCode)) {
+      return { jid: knownJid, name: info.name || 'Canale WhatsApp', inviteCode };
+    }
+  }
+
+  // Interrogazione WhatsApp con socket attivo
   if (connectionState === 'CONNECTED' && sock) {
-    const queries = [
+    // 1. Prova se Baileys socket ha il metodo built-in newsletterMetadata
+    if (typeof sock.newsletterMetadata === 'function') {
+      try {
+        const meta = await sock.newsletterMetadata('invite', inviteCode);
+        if (meta && meta.id) {
+          const jid = meta.id.endsWith('@newsletter') ? meta.id : `${meta.id}@newsletter`;
+          const name = meta.thread_metadata?.name?.text || meta.name || 'Canale WhatsApp';
+          detectedChannels.set(jid, { jid, name, link: `https://whatsapp.com/channel/${inviteCode}` });
+          return { jid, name, inviteCode };
+        }
+      } catch (e) {}
+    }
+
+    // 2. Interrogazione diretta w:mex con gli identificatori di query WhatsApp
+    const mexQueries = [
+      {
+        queryId: '6620195908089573',
+        variables: {
+          input: { key: inviteCode, type: 'INVITE', view_role: 'GUEST' },
+          fetch_viewer_metadata: false,
+          fetch_full_image: true,
+          fetch_creation_time: true
+        }
+      },
+      {
+        queryId: '6563316087068696',
+        variables: {
+          input: { key: inviteCode, type: 'INVITE' },
+          fetch_viewer_metadata: false,
+          fetch_full_image: true,
+          fetch_creation_time: true
+        }
+      },
+      {
+        queryId: '9779843322044422',
+        variables: {
+          input: { key: inviteCode, type: 'INVITE' },
+          fetch_viewer_metadata: false,
+          fetch_full_image: true,
+          fetch_creation_time: true
+        }
+      }
+    ];
+
+    for (const item of mexQueries) {
+      try {
+        const iqNode = {
+          tag: 'iq',
+          attrs: {
+            id: sock.generateMessageTag(),
+            type: 'get',
+            xmlns: 'w:mex',
+            to: 's.whatsapp.net'
+          },
+          content: [
+            {
+              tag: 'query',
+              attrs: { query_id: item.queryId },
+              content: Buffer.from(JSON.stringify({ variables: item.variables }))
+            }
+          ]
+        };
+
+        const res = await safeQuery(iqNode, 4000);
+
+        function extractMex(node) {
+          if (!node) return null;
+          if (node.tag === 'result' && node.content) {
+            try {
+              const text = Buffer.isBuffer(node.content) ? node.content.toString('utf8') : String(node.content);
+              const data = JSON.parse(text).data;
+              const meta = data?.xwa2_newsletter || data?.xwa2_newsletter_create || data?.xwa2_newsletter_by_invite;
+              if (meta && meta.id) {
+                const jid = meta.id.endsWith('@newsletter') ? meta.id : `${meta.id}@newsletter`;
+                const name = meta.thread_metadata?.name?.text || meta.name || 'Canale WhatsApp';
+                return { jid, name };
+              }
+            } catch (e) {}
+          }
+          if (Array.isArray(node.content)) {
+            for (const child of node.content) {
+              const found = extractMex(child);
+              if (found) return found;
+            }
+          }
+          return null;
+        }
+
+        const found = extractMex(res);
+        if (found) {
+          detectedChannels.set(found.jid, { jid: found.jid, name: found.name, link: `https://whatsapp.com/channel/${inviteCode}` });
+          return { jid: found.jid, name: found.name, inviteCode };
+        }
+      } catch (mexErr) {}
+    }
+
+    // 3. Fallback con stanza standard 'newsletter'
+    const legacyQueries = [
       {
         tag: 'iq',
         attrs: { to: 's.whatsapp.net', xmlns: 'newsletter', type: 'get', id: sock.generateMessageTag() },
@@ -787,7 +934,7 @@ async function resolveChannel(input) {
       }
     ];
 
-    for (const q of queries) {
+    for (const q of legacyQueries) {
       try {
         const res = await safeQuery(q, 3500);
         let jid = null;
@@ -815,9 +962,7 @@ async function resolveChannel(input) {
           detectedChannels.set(jid, { jid, name, link: `https://whatsapp.com/channel/${inviteCode}` });
           return { jid, name, inviteCode };
         }
-      } catch (iqErr) {
-        // Ignora e passa oltre
-      }
+      } catch (iqErr) {}
     }
   }
 
@@ -845,7 +990,6 @@ async function resolveChannel(input) {
     };
   } catch (webErr) {}
 
-  throw new Error(`Impossibile risolvere automaticamente l'invito. Inserisci direttamente il JID del canale (es. 120363...@newsletter).`);
 }
 
 // Invia contenuto al Canale WhatsApp (Post, Carosello o Reel)
