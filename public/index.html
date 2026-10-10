@@ -454,40 +454,29 @@ Verify Token: <span id="meta-webhook-verify-token">...</span></code></pre>
             </ul>
           </div>
 
-          <div class="channel-quick-select-box" style="margin-bottom: 14px; padding: 12px; background: rgba(59, 130, 246, 0.08); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 8px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-              <span style="font-weight: 600; font-size: 0.85rem; color: #60a5fa;">📋 Canali WhatsApp Rilevati</span>
-              <button type="button" id="btn-load-my-channels" class="btn btn-secondary btn-xs">🔄 Aggiorna Elenco</button>
-            </div>
-            <select id="channel-quick-select" class="form-control" style="width: 100%; padding: 8px 12px; font-size: 0.85rem; border-radius: 6px; background: #1e293b; color: #fff; border: 1px solid #475569;">
-              <option value="">-- Seleziona un canale rilevato o compila i campi sotto --</option>
-            </select>
-          </div>
-
           <form id="channel-form">
             <div class="form-group">
-              <label for="channel-link">Link o Codice Canale WhatsApp</label>
+              <label for="channel-link">Link Canale WhatsApp</label>
               <div class="input-with-button">
-                <input type="text" id="channel-link" placeholder="https://whatsapp.com/channel/0029Va... oppure JID 120363...@newsletter">
-                <button type="button" id="btn-resolve-channel" class="btn btn-secondary" title="Verifica e ricava JID automaticamente">
-                  🔍 Risolvi & Verifica
+                <input type="text" id="channel-link" placeholder="https://whatsapp.com/channel/0029Vb..." required>
+                <button type="submit" id="btn-save-channel" class="btn btn-primary" title="Collega e Salva Canale">
+                  💾 Salva & Collega
                 </button>
               </div>
-              <small class="hint">Incolla il link d'invito del tuo canale (es. <code>https://whatsapp.com/channel/...</code>) o il JID numerico.</small>
+              <small class="hint">Incolla semplicemente il link d'invito del tuo canale (es. <code>https://whatsapp.com/channel/...</code>). Il bot ricaverà automaticamente il nome e l'identificativo del canale.</small>
             </div>
 
-            <div class="grid-2-cols" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-              <div class="form-group">
-                <label for="channel-jid">JID Canale WhatsApp</label>
-                <input type="text" id="channel-jid" placeholder="Es. 120363...@newsletter" required>
-                <small class="hint">Identificativo interno del canale (es. <code>120363...@newsletter</code>).</small>
+            <!-- Box di stato del canale collegato -->
+            <div id="channel-status-badge" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(148, 163, 184, 0.2); border-radius: 8px; margin-bottom: 14px;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span id="channel-status-dot" style="width: 10px; height: 10px; border-radius: 50%; background: #64748b; display: inline-block;"></span>
+                <div>
+                  <div id="channel-status-title" style="font-weight: 600; font-size: 0.9rem; color: #f8fafc;">Nessun canale collegato</div>
+                  <div id="channel-status-jid" style="font-size: 0.75rem; color: #94a3b8; font-family: monospace;">Inserisci il link sopra e clicca Salva</div>
+                </div>
               </div>
-
-              <div class="form-group">
-                <label for="channel-name">Nome Canale</label>
-                <input type="text" id="channel-name" placeholder="Nome del Canale">
-                <small class="hint">Nome o etichetta del canale.</small>
-              </div>
+              <input type="hidden" id="channel-jid">
+              <input type="hidden" id="channel-name">
             </div>
 
             <div class="form-group" style="display: flex; align-items: center; gap: 10px; margin-top: 10px;">
@@ -498,9 +487,6 @@ Verify Token: <span id="meta-webhook-verify-token">...</span></code></pre>
             </div>
 
             <div class="card-action-bar mt-3" style="display: flex; flex-wrap: wrap; gap: 10px;">
-              <button type="submit" id="btn-save-channel" class="btn btn-primary">
-                💾 Salva Canale
-              </button>
               <button type="button" id="btn-sync-channel-now" class="btn btn-success">
                 <span class="btn-text">🔄 Sincronizza Canale Adesso</span>
                 <span class="spinner" style="display: none;"></span>
@@ -514,8 +500,8 @@ Verify Token: <span id="meta-webhook-verify-token">...</span></code></pre>
               <button type="button" id="btn-clear-channel-history" class="btn btn-outline-danger btn-xs" title="Azzera la cronologia dei post per permettere una nuova sincronizzazione">
                 🗑️ Azzera Cronologia Post
               </button>
-              <button type="button" id="btn-reset-channel" class="btn btn-danger btn-xs" title="Resetta completamente il canale (rimuove JID, link e storico)">
-                ⚠️ Reset Canale
+              <button type="button" id="btn-reset-channel" class="btn btn-danger btn-xs" title="Resetta completamente il canale (rimuove link e storico)">
+                ⚠️ Scollega Canale
               </button>
             </div>
           </form>

@@ -167,6 +167,22 @@ async function fetchConfigAndLogs() {
         if (jidElem && document.activeElement !== jidElem) jidElem.value = ch.jid || '';
         if (nameElem && document.activeElement !== nameElem) nameElem.value = ch.name || '';
         if (syncElem && document.activeElement !== syncElem) syncElem.checked = (ch.enabled !== false);
+
+        // Aggiorna badge di stato canale
+        const dot = document.getElementById('channel-status-dot');
+        const title = document.getElementById('channel-status-title');
+        const jidLabel = document.getElementById('channel-status-jid');
+        if (dot && title && jidLabel) {
+          if (ch.link || ch.jid) {
+            dot.style.background = '#22c55e';
+            title.textContent = `✅ ${ch.name || 'Canale WhatsApp'}`;
+            jidLabel.textContent = ch.jid ? `JID: ${ch.jid}` : (ch.link || 'Canale configurato');
+          } else {
+            dot.style.background = '#64748b';
+            title.textContent = 'Nessun canale collegato';
+            jidLabel.textContent = 'Incolla il link sopra e clicca Salva & Collega';
+          }
+        }
       }
 
       renderLogs(config.logs || []);
@@ -697,96 +713,41 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  const quickSelect = document.getElementById('channel-quick-select');
-  if (quickSelect) {
-    quickSelect.addEventListener('change', () => {
-      const selected = quickSelect.options[quickSelect.selectedIndex];
-      if (!selected || !selected.value) return;
-      document.getElementById('channel-jid').value = selected.value;
-      if (selected.getAttribute('data-name')) {
-        document.getElementById('channel-name').value = selected.getAttribute('data-name');
-      }
-      if (selected.getAttribute('data-link')) {
-        document.getElementById('channel-link').value = selected.getAttribute('data-link');
-      }
-      showToast(`Canale "${selected.getAttribute('data-name') || 'WhatsApp'}" selezionato! Clicca "Salva Canale".`, 'info');
-    });
-  }
-
-  const btnLoadChannels = document.getElementById('btn-load-my-channels');
-  if (btnLoadChannels) {
-    btnLoadChannels.addEventListener('click', async () => {
-      showToast('Aggiornamento canali...', 'info');
-      await loadMyChannels();
-      showToast('Elenco canali aggiornato!', 'success');
-    });
-  }
-
-  // Carica i canali al primo avvio
-  loadMyChannels();
-
-  // Risolvi / Verifica Canale WhatsApp
-  document.getElementById('btn-resolve-channel').addEventListener('click', async () => {
-    const input = document.getElementById('channel-link');
-    const channelLink = input.value.trim();
-    if (!channelLink) {
-      showToast('Inserisci prima il link o il JID del canale.', 'warning');
-      return;
-    }
-    const btn = document.getElementById('btn-resolve-channel');
-    btn.disabled = true;
-    showToast('Verifica canale in corso...', 'info');
-
-    try {
-      const res = await fetch('/api/channel/resolve', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ channelLink })
-      });
-      const data = await res.json();
-      if (res.ok && data.success) {
-        if (data.jid) document.getElementById('channel-jid').value = data.jid;
-        if (data.name) document.getElementById('channel-name').value = data.name;
-        showToast(`Canale "${data.name || 'WhatsApp'}" verificato! Premi "Salva Canale".`, 'success');
-        loadMyChannels();
-      } else {
-        showToast(data.error || 'Impossibile verificare il canale', 'error');
-      }
-    } catch (err) {
-      showToast('Errore di comunicazione col server.', 'error');
-    } finally {
-      btn.disabled = false;
-    }
-  });
-
-  // Salva Impostazioni Canale
+  // Salva e Collega Canale WhatsApp solo dal link
   document.getElementById('channel-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     const link = document.getElementById('channel-link').value.trim();
-    const jid = document.getElementById('channel-jid').value.trim();
-    const name = document.getElementById('channel-name').value.trim();
     const enabled = document.getElementById('channel-sync-enabled').checked;
 
-    if (!jid) {
-      showToast('Inserisci o risolvi prima il JID del canale.', 'warning');
+    if (!link) {
+      showToast('Inserisci il link del canale WhatsApp.', 'warning');
       return;
     }
+
+    const btn = document.getElementById('btn-save-channel');
+    btn.disabled = true;
+    showToast('Risoluzione e collegamento canale in corso...', 'info');
 
     try {
       const res = await fetch('/api/channel/update', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ link, jid, name, enabled })
+        body: JSON.stringify({ link, enabled })
       });
       const data = await res.json();
       if (res.ok && data.success) {
-        showToast('Canale WhatsApp salvato e collegato con successo!', 'success');
+        const ch = data.channel || {};
+        if (ch.jid) document.getElementById('channel-jid').value = ch.jid;
+        if (ch.name) document.getElementById('channel-name').value = ch.name;
+        showToast(`Canale "${ch.name || 'WhatsApp'}" collegato con successo!`, 'success');
         fetchConfigAndLogs();
       } else {
-        showToast(data.error || 'Errore salvataggio canale.', 'error');
+        showToast(data.error || 'Errore durante il collegamento del canale.', 'error');
       }
     } catch (err) {
       showToast('Errore di connessione col server.', 'error');
+    } finally {
+      btn.disabled = false;
     }
   });
 
@@ -834,9 +795,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Invia Test nel Canale
   document.getElementById('btn-test-channel').addEventListener('click', async () => {
+    const link = document.getElementById('channel-link').value.trim();
     const jid = document.getElementById('channel-jid').value.trim();
-    if (!jid) {
-      showToast('Specifica prima il JID del canale.', 'warning');
+    if (!link && !jid) {
+      showToast('Specifica prima il link del canale.', 'warning');
       return;
     }
     const btn = document.getElementById('btn-test-channel');
@@ -847,7 +809,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const res = await fetch('/api/channel/test-send', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ jid })
+        body: JSON.stringify({ link, jid })
       });
       const data = await res.json();
       if (res.ok && data.success) {
@@ -865,9 +827,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Invia Prova Foto nel Canale
   document.getElementById('btn-test-photo-channel').addEventListener('click', async () => {
+    const link = document.getElementById('channel-link').value.trim();
     const jid = document.getElementById('channel-jid').value.trim();
-    if (!jid) {
-      showToast('Specifica prima il JID del canale.', 'warning');
+    if (!link && !jid) {
+      showToast('Specifica prima il link del canale.', 'warning');
       return;
     }
     const btn = document.getElementById('btn-test-photo-channel');
@@ -878,7 +841,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const res = await fetch('/api/channel/test-send', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ jid, withImage: true })
+        body: JSON.stringify({ link, jid, withImage: true })
       });
       const data = await res.json();
       if (res.ok && data.success) {

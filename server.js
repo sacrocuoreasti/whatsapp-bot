@@ -303,23 +303,42 @@ app.get('/api/channel/my-channels', requireWebAuth, async (req, res) => {
   }
 });
 
-// Salva impostazioni canale WhatsApp
-app.post('/api/channel/update', requireWebAuth, (req, res) => {
-  const { link, jid, name, enabled } = req.body;
+// Salva impostazioni canale WhatsApp (con auto-risoluzione del link)
+app.post('/api/channel/update', requireWebAuth, async (req, res) => {
+  let { link, jid, name, enabled } = req.body;
   const config = getConfig();
   const currentChannel = config.channel || {};
+
+  link = String(link || '').trim();
+
+  // Se viene fornito un link, risolvilo in automatico ricavando JID e Nome
+  if (link && (!jid || !name || link !== currentChannel.link)) {
+    try {
+      const resolved = await whatsapp.resolveChannel(link);
+      if (resolved?.jid) jid = resolved.jid;
+      if (resolved?.name) name = resolved.name;
+    } catch (err) {
+      console.warn('Auto-resolve link durante salvataggio:', err.message);
+      if (!jid && !currentChannel.jid) {
+        return res.status(400).json({
+          success: false,
+          error: `Impossibile risolvere il link "${link}". Verifica che il link sia valido e che WhatsApp sia connesso.`
+        });
+      }
+    }
+  }
 
   const updatedChannel = {
     ...currentChannel,
     ...(link !== undefined && { link }),
     ...(jid !== undefined && { jid }),
     ...(name !== undefined && { name }),
-    ...(enabled !== undefined && { enabled })
+    ...(enabled !== undefined && { enabled: !!enabled })
   };
 
   updateConfig({ channel: updatedChannel });
   instagram.startInstagramPolling();
-  addLog('config', 'Impostazioni Canale WhatsApp aggiornate', { jid: updatedChannel.jid, name: updatedChannel.name });
+  addLog('config', 'Impostazioni Canale WhatsApp aggiornate', { link: updatedChannel.link, jid: updatedChannel.jid, name: updatedChannel.name });
   res.json({ success: true, channel: updatedChannel });
 });
 
@@ -337,14 +356,14 @@ app.post('/api/channel/sync-now', requireWebAuth, async (req, res) => {
 // Invia un messaggio di test nel canale
 app.post('/api/channel/test-send', requireWebAuth, async (req, res) => {
   const config = getConfig();
-  const channelJid = req.body.jid || config.channel?.jid;
-  if (!channelJid) {
-    return res.status(400).json({ success: false, error: 'Nessun JID canale specificato o salvato.' });
+  const target = req.body.jid || req.body.link || config.channel?.jid || config.channel?.link;
+  if (!target) {
+    return res.status(400).json({ success: false, error: 'Nessun link o JID canale specificato o salvato.' });
   }
 
   try {
     const imageUrl = req.body.imageUrl || (req.body.withImage ? 'https://picsum.photos/800/800' : null);
-    const result = await whatsapp.sendToChannel(channelJid, {
+    const result = await whatsapp.sendToChannel(target, {
       type: 'test',
       imageUrl,
       caption: imageUrl
