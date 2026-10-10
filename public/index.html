@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | WhatsApp Bot Sacro Cuore</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="dashboard-body">
+
+  <!-- TOP NAVBAR -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <div class="nav-logo">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+          </svg>
+        </div>
+        <div>
+          <span class="nav-title">Sacro Cuore Asti</span>
+          <span class="nav-subtitle">WhatsApp Gateway Baileys</span>
+        </div>
+      </div>
+
+      <div class="nav-actions">
+        <div id="wa-status-badge" class="badge badge-disconnected">
+          <span class="status-dot"></span>
+          <span class="status-text">In verifica...</span>
+        </div>
+        <button id="btn-logout" class="btn btn-secondary btn-sm" title="Disconnetti dalla sessione web">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          Esci
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="main-container">
+
+    <!-- HERO ALERT / STATUS BANNER -->
+    <div id="connection-banner" class="connection-banner hidden"></div>
+
+    <div class="grid-layout">
+
+      <!-- ========================================== -->
+      <!-- CARD 1: COLLEGAMENTO WHATSAPP (BAILEYS)    -->
+      <!-- ========================================== -->
+      <section class="card card-whatsapp">
+        <div class="card-header">
+          <div class="card-title-group">
+            <span class="card-icon icon-wa">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+            </span>
+            <div>
+              <h2 class="card-title">Collegamento WhatsApp</h2>
+              <p class="card-desc">Connetti e scollega rapidamente il tuo account WhatsApp</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <!-- STATO NON CONNESSO / QR CODE -->
+          <div id="wa-qr-container" class="qr-box-container">
+            <div class="qr-frame">
+              <div id="qr-loading-spinner" class="qr-loading">
+                <div class="spinner-large"></div>
+                <span>Caricamento codice QR in corso...</span>
+              </div>
+              <img id="qr-image" src="" alt="Codice QR WhatsApp" style="display: none;">
+            </div>
+            <div class="qr-instructions">
+              <ol>
+                <li>Apri <strong>WhatsApp</strong> sul tuo telefono</li>
+                <li>Tocca <strong>Dispositivi collegati</strong> &rarr; <strong>Collega un dispositivo</strong></li>
+                <li>Inquadra il QR code qui sopra per associare il bot</li>
+              </ol>
+              <button id="btn-refresh-qr" class="btn btn-secondary btn-sm">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                Ricarica QR
+              </button>
+
+              <!-- ALTERNATIVA: PAIRING CODE CON NUMERO DI TELEFONO -->
+              <div class="pairing-code-section" style="margin-top: 18px; padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, 0.1); width: 100%;">
+                <div style="font-weight: 600; font-size: 0.88rem; color: #38bdf8; margin-bottom: 6px;">
+                  📱 Oppure: Collega con Codice Telefonico (Consigliato se il QR fallisce)
+                </div>
+                <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 10px;">
+                  Inserisci il nuovo numero con prefisso (es. <code>39348...</code>) per ricevere un codice di accoppiamento a 8 cifre.
+                </p>
+                <div class="input-with-button" style="max-width: 380px;">
+                  <input type="text" id="pairing-phone-input" placeholder="Es. 393487856692">
+                  <button type="button" id="btn-request-pairing-code" class="btn btn-primary btn-sm">
+                    Richiedi Codice
+                  </button>
+                </div>
+                <div id="pairing-code-display" style="display: none; margin-top: 12px; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 8px; padding: 12px; text-align: center; max-width: 380px;">
+                  <div style="font-size: 0.78rem; color: #94a3b8; margin-bottom: 4px;">Codice da inserire su WhatsApp:</div>
+                  <div id="pairing-code-value" style="font-size: 1.6rem; font-weight: 700; letter-spacing: 4px; color: #38bdf8; font-family: monospace;">----</div>
+                  <div style="font-size: 0.75rem; color: #cbd5e1; margin-top: 6px;">
+                    Su WhatsApp del telefono: <em>Dispositivi collegati ➔ Collega un dispositivo ➔ "Collega con numero di telefono"</em>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STATO CONNESSO -->
+          <div id="wa-connected-container" class="connected-box-container" style="display: none;">
+            <div class="connected-user-card">
+              <div class="user-avatar-placeholder">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              </div>
+              <div class="user-details">
+                <div class="user-name" id="wa-user-name">Bot Sacro Cuore</div>
+                <div class="user-phone" id="wa-user-phone">+39 ...</div>
+                <div class="user-status-online">
+                  <span class="online-indicator"></span> Connessione Baileys attiva e pronta
+                </div>
+              </div>
+            </div>
+
+            <div class="card-action-bar">
+              <button id="btn-disconnect" class="btn btn-danger">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+                Scollega WhatsApp
+              </button>
+              <button id="btn-reconnect" class="btn btn-secondary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                Riavvia Sessione
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- CARD 2: API PER GOOGLE APPS SCRIPT         -->
+      <!-- ========================================== -->
+      <section class="card card-api">
+        <div class="card-header">
+          <div class="card-title-group">
+            <span class="card-icon icon-api">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+            </span>
+            <div>
+              <h2 class="card-title">Parametri API Google Script</h2>
+              <p class="card-desc">Credenziali richieste nel file <code>whatsapp-api.js</code></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div class="form-group">
+            <div class="field-header">
+              <label>WHATSAPP_API_URL</label>
+              <span class="field-tag">Endpoint Base</span>
+            </div>
+            <div class="input-with-button">
+              <input type="text" id="api-url-input" readonly value="Caricamento...">
+              <button class="btn btn-primary btn-copy" data-target="api-url-input">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                Copia
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="field-header">
+              <label>WHATSAPP_API_TOKEN</label>
+              <span class="field-tag">Bearer Token</span>
+            </div>
+            <div class="input-with-button">
+              <input type="password" id="api-token-input" readonly value="Caricamento...">
+              <button id="btn-toggle-token" class="btn btn-secondary btn-icon" title="Mostra / Nascondi">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+              </button>
+              <button class="btn btn-primary btn-copy" data-target="api-token-input">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                Copia
+              </button>
+              <button id="btn-regenerate-token" class="btn btn-outline-danger" title="Rigenera un nuovo token">
+                Rigenera
+              </button>
+            </div>
+          </div>
+
+          <!-- SNIPPET GOOGLE SCRIPT PRONTO ALL'USO -->
+          <div class="script-snippet-container">
+            <div class="snippet-header">
+              <span>Configurazione Rapida in Google Script</span>
+              <button id="btn-copy-script" class="btn btn-text btn-xs">Copia Codice</button>
+            </div>
+            <pre><code id="script-code-block">// Esegui una volta in Google Apps Script per salvare le proprietà:
+PropertiesService.getScriptProperties().setProperties({
+  'WHATSAPP_API_URL': '...',
+  'WHATSAPP_API_TOKEN': '...'
+});</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- CARD 3: TEST INVIO MESSAGGIO              -->
+      <!-- ========================================== -->
+      <section class="card card-test">
+        <div class="card-header">
+          <div class="card-title-group">
+            <span class="card-icon icon-send">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            </span>
+            <div>
+              <h2 class="card-title">Test Invio Messaggio API</h2>
+              <p class="card-desc">Simula l'invio esattamente come fa <code>inviaWhatsApp()</code> di Google Script</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <form id="test-send-form">
+            <div class="form-group">
+              <label for="test-number">Numero di telefono destinatario</label>
+              <input type="text" id="test-number" value="393487856692" placeholder="Es. 393487856692 o 3487856692" required>
+              <small class="hint">Prefisso italiano 39 aggiunto in automatico se omesso.</small>
+            </div>
+
+            <div class="form-group">
+              <label for="test-message">Testo del messaggio</label>
+              <textarea id="test-message" rows="3" placeholder="Scrivi qui il messaggio di prova..." required>🚀 Test invio da Gateway WhatsApp Sacro Cuore Asti!</textarea>
+            </div>
+
+            <button type="submit" id="btn-send-test" class="btn btn-success">
+              <span class="btn-text">Invia Messaggio di Prova</span>
+              <span class="spinner" style="display: none;"></span>
+            </button>
+          </form>
+
+          <div id="test-result" class="test-result-box" style="display: none;"></div>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- CARD 4: NOTIFICA RIAVVIO SERVER           -->
+      <!-- ========================================== -->
+      <section class="card card-reboot">
+        <div class="card-header">
+          <div class="card-title-group">
+            <span class="card-icon icon-bell">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+            </span>
+            <div>
+              <h2 class="card-title">Notifica di Avvenuto Riavvio</h2>
+              <p class="card-desc">Avvisa l'amministratore ad ogni reboot o riavvio su Render</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div class="reboot-status-pill">
+            <span class="pill-dot"></span>
+            <span id="reboot-notified-status">Stato sessione: In attesa di avvio</span>
+          </div>
+
+          <form id="reboot-config-form" class="mt-3">
+            <div class="form-group">
+              <label for="admin-notify-number">Numero Amministratore Notifiche</label>
+              <div class="input-with-button">
+                <input type="text" id="admin-notify-number" value="393487856692" placeholder="393487856692" required>
+                <button type="submit" class="btn btn-primary">Salva Numero</button>
+              </div>
+              <small class="hint">Default impostato: <strong>393487856692</strong>. Riceverà un WhatsApp di conferma non appena il bot torna online dopo un riavvio.</small>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- CARD 5: STORIE INSTAGRAM -> STATO WA       -->
+      <!-- ========================================== -->
+      <section class="card card-instagram">
+        <div class="card-header">
+          <div class="card-title-group">
+            <span class="card-icon icon-ig">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+            </span>
+            <div>
+              <h2 class="card-title">Instagram &rarr; Stato WhatsApp</h2>
+              <p class="card-desc">Pubblica automaticamente le storie di Instagram come stati su WhatsApp</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div class="tab-container">
+            <div class="tabs">
+              <button class="tab-btn active" data-tab="tab-meta-api">Meta Graph API (Token)</button>
+              <button class="tab-btn" data-tab="tab-manage-statuses" style="color: #f87171;">🗑️ Elimina Stati</button>
+              <button class="tab-btn" data-tab="tab-post-status">Pubblica Stato</button>
+              <button class="tab-btn" data-tab="tab-webhook">Webhook Esterno</button>
+            </div>
+
+            <!-- TAB 1: META GRAPH API DIRETTA -->
+            <div id="tab-meta-api" class="tab-content active">
+              <p class="section-lead">Collega l'App creata su Meta for Business per sincronizzare in automatico ogni nuova storia come Stato su WhatsApp.</p>
+              
+              <form id="meta-api-form">
+                <div class="form-group">
+                  <label for="meta-app-id">ID App Meta / Instagram Login</label>
+                  <input type="text" id="meta-app-id" placeholder="Es. 1234567890123456 (trovato nella dashboard Meta)">
+                  <small class="hint">ID dell'App creata con il caso d'uso Instagram Login in Meta for Business.</small>
+                </div>
+
+                <div class="form-group">
+                  <label for="meta-access-token">Token di Accesso Instagram (User Token)</label>
+                  <div class="input-with-button">
+                    <input type="password" id="meta-access-token" placeholder="Incolla qui il token di Meta..." required>
+                    <button type="button" id="btn-toggle-meta-token" class="btn btn-secondary btn-icon" title="Mostra / Nascondi Token">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    </button>
+                    <button type="button" id="btn-detect-ig-account" class="btn btn-secondary" title="Trova in automatico l'Account Instagram Business associato al token">
+                      🔍 Rileva Account
+                    </button>
+                  </div>
+                  <small class="hint">Token generato dall'App in Meta for Business (con permessi <code>instagram_basic</code>, <code>instagram_manage_insights</code> o <code>pages_show_list</code>).</small>
+                </div>
+
+                <div class="form-group">
+                  <label for="meta-account-id">ID Account Instagram Business</label>
+                  <input type="text" id="meta-account-id" placeholder="Es. 17841400000000000" required>
+                  <small class="hint" id="detected-account-hint">Verrà compilato automaticamente premendo "Rileva Account".</small>
+                </div>
+
+                <div class="form-group" style="display: flex; align-items: center; gap: 10px;">
+                  <input type="checkbox" id="meta-sync-enabled" style="width: 18px; height: 18px;">
+                  <label for="meta-sync-enabled" style="margin-bottom: 0; cursor: pointer;">Attiva sincronizzazione automatica in background (ogni 5 minuti)</label>
+                </div>
+
+                <div class="card-action-bar mt-3">
+                  <button type="submit" id="btn-save-meta" class="btn btn-primary">Salva Impostazioni Meta</button>
+                  <button type="button" id="btn-sync-stories-now" class="btn btn-success">
+                    <span class="btn-text">🔄 Sincronizza Storie Adesso</span>
+                    <span class="spinner" style="display: none;"></span>
+                  </button>
+                </div>
+              </form>
+
+              <div id="meta-sync-result" class="test-result-box" style="display: none;"></div>
+
+              <div class="script-snippet-container mt-3">
+                <div class="snippet-header">
+                  <span>Opzionale: Webhook Meta (per ricezione in tempo reale istantanea)</span>
+                </div>
+                <pre><code>Callback URL: <span id="meta-webhook-callback-url">...</span>
+Verify Token: <span id="meta-webhook-verify-token">...</span></code></pre>
+              </div>
+            </div>
+
+            <!-- TAB: ELIMINA STATI WHATSAPP -->
+            <div id="tab-manage-statuses" class="tab-content">
+              <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; padding: 14px; margin-bottom: 16px;">
+                <h4 style="color: #f87171; margin-bottom: 6px; font-size: 0.95rem;">Elimina Tutti gli Stati Pubblicati</h4>
+                <p style="font-size: 0.82rem; color: #d1d5db; margin-bottom: 12px;">Invia immediatamente la revoca a WhatsApp per tutti gli stati pubblicati, rimuovendoli da tutti i contatti.</p>
+                <button type="button" id="btn-delete-all-statuses" class="btn btn-danger btn-block">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                  🗑️ ELIMINA TUTTI GLI STATI ATTIVI
+                </button>
+              </div>
+
+              <div class="form-group">
+                <label for="delete-single-status-id">Elimina Singolo Stato per ID Messaggio</label>
+                <div class="input-with-button">
+                  <input type="text" id="delete-single-status-id" placeholder="Es. 3EB0...">
+                  <button type="button" id="btn-delete-single-status" class="btn btn-outline-danger">Elimina</button>
+                </div>
+                <small class="hint">Puoi incollare l'ID di un qualsiasi stato WhatsApp per eliminarlo singolarmente.</small>
+              </div>
+
+              <div class="form-group mt-3">
+                <div class="field-header">
+                  <label>Stati Pubblicati Recenti</label>
+                  <button type="button" id="btn-refresh-statuses-list" class="btn btn-text btn-xs">Aggiorna Elenco</button>
+                </div>
+                <div id="statuses-list-container" class="log-stream" style="max-height: 180px;">
+                  <div class="log-empty">Nessuno stato registrato di recente.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- TAB 2: WEBHOOK ESTERNO -->
+            <div id="tab-webhook" class="tab-content">
+              <p class="section-lead">Puoi anche usare Zapier o Make.com inviando un payload JSON a questo endpoint.</p>
+              
+              <div class="form-group">
+                <label>URL Webhook Ricezione Storie</label>
+                <div class="input-with-button">
+                  <input type="text" id="ig-webhook-url" readonly value="...">
+                  <button class="btn btn-primary btn-copy" data-target="ig-webhook-url">Copia</button>
+                </div>
+                <small class="hint">Invia una richiesta <code>POST</code> con payload JSON: <code>{ "imageUrl": "...", "caption": "..." }</code></small>
+              </div>
+            </div>
+
+            <!-- TAB 2: PUBBLICAZIONE DIRETTA STATO -->
+            <div id="tab-post-status" class="tab-content">
+              <form id="post-status-form">
+                <div class="form-group">
+                  <label for="status-image-url">URL Immagine o Video per lo Stato</label>
+                  <input type="url" id="status-image-url" placeholder="https://example.com/storia.jpg">
+                </div>
+                <div class="form-group">
+                  <label for="status-caption">Didascalia / Testo dello Stato</label>
+                  <textarea id="status-caption" rows="2" placeholder="Didascalia da mostrare nello stato WhatsApp..."></textarea>
+                </div>
+                <button type="submit" id="btn-publish-status" class="btn btn-primary">
+                  <span class="btn-text">Pubblica come Stato WhatsApp</span>
+                  <span class="spinner" style="display: none;"></span>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- CARD 6: CANALE WHATSAPP (NEWSLETTER)        -->
+      <!-- ========================================== -->
+      <section class="card card-channel">
+        <div class="card-header">
+          <div class="card-title-group">
+            <span class="card-icon" style="background: rgba(37, 211, 102, 0.15); color: #25d366;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+            </span>
+            <div>
+              <h2 class="card-title">Canale WhatsApp &larr; Feed Instagram</h2>
+              <p class="card-desc">Sincronizza in automatico Post, Caroselli e Reel da Instagram al Canale WhatsApp</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <!-- Banner Regole di Funzionamento richieste dall'utente -->
+          <div style="background: rgba(30, 41, 59, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 14px; margin-bottom: 18px;">
+            <div style="font-weight: 600; color: #38bdf8; margin-bottom: 8px; font-size: 0.9rem;">
+              ⚡ Regole di pubblicazione automatica nel Canale:
+            </div>
+            <ul style="margin: 0; padding-left: 20px; font-size: 0.85rem; color: #e2e8f0; line-height: 1.6;">
+              <li>📸 <strong>Post IG:</strong> Foto + descrizione pubblicata nel canale</li>
+              <li>🖼️ <strong>Carosello IG:</strong> Foto + descrizione pubblicata nel canale</li>
+              <li>🎬 <strong>Reel IG:</strong> Descrizione + link diretto al Reel su Instagram</li>
+            </ul>
+          </div>
+
+          <form id="channel-form">
+            <div class="form-group">
+              <label for="channel-link">Link o Codice Canale WhatsApp</label>
+              <div class="input-with-button">
+                <input type="text" id="channel-link" placeholder="https://whatsapp.com/channel/0029Va... oppure JID 120363...@newsletter">
+                <button type="button" id="btn-resolve-channel" class="btn btn-secondary" title="Verifica e ricava JID automaticamente">
+                  🔍 Risolvi & Verifica
+                </button>
+              </div>
+              <small class="hint">Incolla il link d'invito del tuo canale (es. <code>https://whatsapp.com/channel/...</code>) o il JID numerico.</small>
+            </div>
+
+            <div class="grid-2-cols" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+              <div class="form-group">
+                <label for="channel-jid">JID Canale WhatsApp</label>
+                <input type="text" id="channel-jid" placeholder="Es. 120363...@newsletter" required>
+                <small class="hint">Identificativo interno del canale (es. <code>120363...@newsletter</code>).</small>
+              </div>
+
+              <div class="form-group">
+                <label for="channel-name">Nome Canale</label>
+                <input type="text" id="channel-name" placeholder="Nome del Canale">
+                <small class="hint">Nome o etichetta del canale.</small>
+              </div>
+            </div>
+
+            <div class="form-group" style="display: flex; align-items: center; gap: 10px; margin-top: 10px;">
+              <input type="checkbox" id="channel-sync-enabled" checked style="width: 18px; height: 18px;">
+              <label for="channel-sync-enabled" style="margin-bottom: 0; cursor: pointer;">
+                Attiva sincronizzazione automatica del Canale in background
+              </label>
+            </div>
+
+            <div class="card-action-bar mt-3" style="display: flex; flex-wrap: wrap; gap: 10px;">
+              <button type="submit" id="btn-save-channel" class="btn btn-primary">
+                💾 Salva Canale
+              </button>
+              <button type="button" id="btn-sync-channel-now" class="btn btn-success">
+                <span class="btn-text">🔄 Sincronizza Canale Adesso</span>
+                <span class="spinner" style="display: none;"></span>
+              </button>
+              <button type="button" id="btn-test-channel" class="btn btn-secondary">
+                🔔 Messaggio di Prova
+              </button>
+              <button type="button" id="btn-test-photo-channel" class="btn btn-secondary">
+                📸 Prova Foto nel Canale
+              </button>
+              <button type="button" id="btn-clear-channel-history" class="btn btn-outline-danger btn-xs" title="Azzera la cronologia dei post per permettere una nuova sincronizzazione">
+                🗑️ Azzera Cronologia Post
+              </button>
+              <button type="button" id="btn-reset-channel" class="btn btn-danger btn-xs" title="Resetta completamente il canale (rimuove JID, link e storico)">
+                ⚠️ Reset Canale
+              </button>
+            </div>
+          </form>
+
+          <div id="channel-result-box" class="test-result-box" style="display: none; margin-top: 14px;"></div>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- CARD 7: REGISTRO LOG ATTIVITÀ              -->
+      <!-- ========================================== -->
+      <section class="card card-logs full-width">
+        <div class="card-header">
+          <div class="card-title-group">
+            <span class="card-icon icon-logs">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+            </span>
+            <div>
+              <h2 class="card-title">Registro Attività & Log</h2>
+              <p class="card-desc">Visualizzazione degli invii, connessioni e notifiche del server</p>
+            </div>
+          </div>
+          <button id="btn-refresh-logs" class="btn btn-secondary btn-xs">Aggiorna Log</button>
+        </div>
+
+        <div class="card-body">
+          <div class="log-stream" id="log-container">
+            <div class="log-empty">Nessuna attività registrata di recente.</div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- TOAST FEEDBACK NOTIFICATIONS -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>

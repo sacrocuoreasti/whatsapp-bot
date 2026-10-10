@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accesso Admin | WhatsApp Bot Sacro Cuore</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="login-body">
+  <div class="login-wrapper">
+    <div class="login-card">
+      <div class="brand-header">
+        <div class="brand-logo">
+          <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+          </svg>
+        </div>
+        <h1 class="brand-title">Sacro Cuore Asti</h1>
+        <p class="brand-subtitle">WhatsApp Gateway & Baileys Bot</p>
+      </div>
+
+      <div id="alert-container"></div>
+
+      <form id="login-form" class="form">
+        <div class="form-group">
+          <label for="email">Email Amministratore</label>
+          <div class="input-wrapper">
+            <input 
+              type="email" 
+              id="email" 
+              name="email" 
+              value="admin@sacrocuoreasti.com" 
+              placeholder="admin@sacrocuoreasti.com" 
+              required
+              autocomplete="username"
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-wrapper">
+            <input 
+              type="password" 
+              id="password" 
+              name="password" 
+              placeholder="••••••••" 
+              required
+              autocomplete="current-password"
+            >
+          </div>
+        </div>
+
+        <button type="submit" id="btn-login" class="btn btn-primary btn-block">
+          <span class="btn-text">Accedi al Pannello</span>
+          <span class="spinner" style="display: none;"></span>
+        </button>
+
+        <div class="login-hint">
+          <span>Profilo predefinito: <code>admin@sacrocuoreasti.com</code></span>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('login-form');
+    const alertBox = document.getElementById('alert-container');
+    const submitBtn = document.getElementById('btn-login');
+    const btnText = submitBtn.querySelector('.btn-text');
+    const spinner = submitBtn.querySelector('.spinner');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      alertBox.innerHTML = '';
+      submitBtn.disabled = true;
+      btnText.style.display = 'none';
+      spinner.style.display = 'inline-block';
+
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      try {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          window.location.href = '/';
+        } else {
+          alertBox.innerHTML = `
+            <div class="alert alert-danger">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+              <span>${data.error || 'Credenziali non valide'}</span>
+            </div>
+          `;
+        }
+      } catch (err) {
+        alertBox.innerHTML = `
+          <div class="alert alert-danger">
+            <span>Errore di connessione col server.</span>
+          </div>
+        `;
+      } finally {
+        submitBtn.disabled = false;
+        btnText.style.display = 'inline-block';
+        spinner.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>

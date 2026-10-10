@@ -1,0 +1,23 @@
+{
+  "name": "sacrocuore-whatsapp-bot",
+  "version": "1.0.0",
+  "description": "WhatsApp Baileys Bot con interfaccia web per Sacro Cuore Asti e API Google Apps Script",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "@whiskeysockets/baileys": "6.7.8",
+    "axios": "^1.7.2",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "jimp": "^0.16.13",
+    "pino": "^8.20.0",
+    "qrcode": "^1.5.3"
+  }
+}
