@@ -990,6 +990,7 @@ async function resolveChannel(input) {
     };
   } catch (webErr) {}
 
+  throw new Error(`Impossibile risolvere automaticamente l'invito. Inserisci direttamente il JID del canale (es. 120363...@newsletter).`);
 }
 
 // Invia contenuto al Canale WhatsApp (Post, Carosello o Reel)
