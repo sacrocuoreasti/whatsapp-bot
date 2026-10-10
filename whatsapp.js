@@ -848,17 +848,6 @@ async function resolveChannel(input) {
   throw new Error(`Impossibile risolvere automaticamente l'invito. Inserisci direttamente il JID del canale (es. 120363...@newsletter).`);
 }
 
-    return {
-      name: channelName,
-      inviteCode,
-      needJid: true,
-      message: `Trovato canale "${channelName}". Inserisci il JID (es. 120363...@newsletter) per completare il collegamento.`
-    };
-  } catch (webErr) {}
-
-  throw new Error(`Impossibile risolvere automaticamente l'invito. Inserisci direttamente il JID del canale (es. 120363...@newsletter).`);
-}
-
 // Invia contenuto al Canale WhatsApp (Post, Carosello o Reel)
 async function sendToChannel(channelJid, { type, imageUrl, caption, link }) {
   if (connectionState !== 'CONNECTED' || !sock) {

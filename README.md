@@ -45,9 +45,7 @@ Gateway WhatsApp creato con **Node.js**, **Express** e **@whiskeysockets/baileys
    ```
 3. **Apri il browser**:
    - Vai su: `http://localhost:3010`
-   - Inserisci le credenziali:
-     - **Email:** `admin@sacrocuoreasti.com`
-     - **Password:** `admin123`
+   - Inserisci le credenziali
 4. **Inquadra il QR Code**:
    - Apri WhatsApp sul telefono &rarr; Dispositivi collegati &rarr; Inquadra il QR code visualizzato a video.
 
