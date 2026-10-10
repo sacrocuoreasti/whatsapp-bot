@@ -270,10 +270,6 @@ async function syncFeedToChannel(options = {}) {
   const publishedIds = new Set(channelConfig.publishedPostIds || []);
   let newPublishedCount = 0;
 
-  // Determina quali post elaborare:
-  // Se è la primissima volta (nessun ID salvato) e non è forzato syncAll,
-  // inviamo l'ultimo post (il più recente) e marchiamo tutti gli altri 24 come già noti,
-  // evitando di inondare il canale con dozzine di vecchi post storici!
   let itemsToProcess = [];
 
   if (publishedIds.size === 0 && !options.syncAll) {
@@ -281,9 +277,17 @@ async function syncFeedToChannel(options = {}) {
     itemsToProcess = [latestItem];
     mediaItems.forEach(item => publishedIds.add(item.id));
     publishedIds.delete(latestItem.id);
+  } else if (options.syncAll) {
+    itemsToProcess = [...mediaItems].reverse();
   } else {
     // Elabora dal più vecchio al più recente così appaiono in ordine temporale nel canale
     itemsToProcess = mediaItems.filter(item => !publishedIds.has(item.id)).reverse();
+  }
+
+  console.log(`📡 [Canale WhatsApp] Post trovati su IG: ${mediaItems.length} | Già registrati: ${publishedIds.size} | Da pubblicare adesso: ${itemsToProcess.length}`);
+
+  if (itemsToProcess.length === 0) {
+    console.log(`ℹ️ [Canale WhatsApp] Nessun post inedito da pubblicare (tutti i ${mediaItems.length} post sono già registrati).`);
   }
 
   for (const item of itemsToProcess) {
@@ -291,6 +295,8 @@ async function syncFeedToChannel(options = {}) {
       const mediaType = item.media_type;
       const caption = item.caption || '';
       const permalink = item.permalink || '';
+
+      console.log(`🚀 [Canale WhatsApp] Pubblicazione post ${item.id} (${mediaType})...`);
 
       if (mediaType === 'IMAGE') {
         // - post ig -> foto + descrizione nel canale
@@ -347,7 +353,7 @@ async function syncFeedToChannel(options = {}) {
         permalink
       });
     } catch (publishErr) {
-      console.error(`Errore pubblicazione elemento ${item.id} su canale:`, publishErr.message);
+      console.error(`❌ [Canale WhatsApp] Errore pubblicazione post ${item.id}:`, publishErr.message);
       addLog('error', `Errore pubblicazione ${item.id} su canale: ${publishErr.message}`);
     }
   }
@@ -361,7 +367,7 @@ async function syncFeedToChannel(options = {}) {
     newPublished: newPublishedCount,
     message: newPublishedCount > 0 
       ? `Pubblicati ${newPublishedCount} nuovi contenuti nel Canale WhatsApp.`
-      : `Nessun nuovo post o reel da pubblicare nel canale.`
+      : `Nessun nuovo post da pubblicare (tutti i ${mediaItems.length} post trovati sono già stati pubblicati in precedenza).`
   };
 }
 
@@ -382,6 +388,20 @@ function startInstagramPolling() {
   if (isIgActive || isChannelActive) {
     const minutes = Math.max(2, igConfig.checkIntervalMinutes || 5);
     console.log(`📸 Sincronizzazione automatica attiva ogni ${minutes} minuti (Storie: ${isIgActive ? 'SI' : 'NO'}, Canale: ${isChannelActive ? 'SI' : 'NO'}).`);
+
+    // Esegui un primo controllo rapido dopo 15 secondi dall'avvio
+    setTimeout(async () => {
+      try {
+        if (isIgActive) {
+          console.log('📸 Controllo iniziale Storie Instagram in corso...');
+          await syncStoriesFromMeta().catch(err => console.error('Errore storie:', err.message));
+        }
+        if (isChannelActive) {
+          console.log('📢 Controllo iniziale Canale WhatsApp in corso...');
+          await syncFeedToChannel().catch(err => console.error('Errore canale:', err.message));
+        }
+      } catch (err) {}
+    }, 15000);
 
     pollInterval = setInterval(async () => {
       try {

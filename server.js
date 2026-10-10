@@ -10,6 +10,16 @@ const instagram = require('./instagram');
 const app = express();
 const PORT = process.env.PORT || 3010;
 
+// Filtra i log di rumore interni di libsignal (Bad MAC, MessageCounterError, ratchets)
+const origConsoleError = console.error;
+console.error = function(...args) {
+  const str = args.map(a => (a && a.stack) ? a.stack : String(a)).join(' ');
+  if (str.includes('Bad MAC') || str.includes('MessageCounterError') || str.includes('Key used already')) {
+    return;
+  }
+  origConsoleError.apply(console, args);
+};
+
 // Token di sessione segreto in memoria per le sessioni utente
 const SESSION_SECRET = crypto.randomBytes(32).toString('hex');
 const activeSessions = new Set();
