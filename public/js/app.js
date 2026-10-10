@@ -679,6 +679,52 @@ document.addEventListener('DOMContentLoaded', () => {
   // CANALE WHATSAPP EVENT LISTENERS
   // ==========================================
 
+  async function loadMyChannels() {
+    const select = document.getElementById('channel-quick-select');
+    if (!select) return;
+    try {
+      const res = await fetch('/api/channel/my-channels');
+      if (res.ok) {
+        const data = await res.json();
+        const channels = data.channels || [];
+        if (channels.length > 0) {
+          select.innerHTML = '<option value="">-- Seleziona un canale rilevato o compila sotto --</option>' +
+            channels.map(c => `<option value="${escapeHtml(c.jid)}" data-name="${escapeHtml(c.name || '')}" data-link="${escapeHtml(c.link || '')}">${escapeHtml(c.name || 'Canale')} (${c.jid})</option>`).join('');
+        }
+      }
+    } catch (e) {
+      console.error('Errore caricamento canali:', e);
+    }
+  }
+
+  const quickSelect = document.getElementById('channel-quick-select');
+  if (quickSelect) {
+    quickSelect.addEventListener('change', () => {
+      const selected = quickSelect.options[quickSelect.selectedIndex];
+      if (!selected || !selected.value) return;
+      document.getElementById('channel-jid').value = selected.value;
+      if (selected.getAttribute('data-name')) {
+        document.getElementById('channel-name').value = selected.getAttribute('data-name');
+      }
+      if (selected.getAttribute('data-link')) {
+        document.getElementById('channel-link').value = selected.getAttribute('data-link');
+      }
+      showToast(`Canale "${selected.getAttribute('data-name') || 'WhatsApp'}" selezionato! Clicca "Salva Canale".`, 'info');
+    });
+  }
+
+  const btnLoadChannels = document.getElementById('btn-load-my-channels');
+  if (btnLoadChannels) {
+    btnLoadChannels.addEventListener('click', async () => {
+      showToast('Aggiornamento canali...', 'info');
+      await loadMyChannels();
+      showToast('Elenco canali aggiornato!', 'success');
+    });
+  }
+
+  // Carica i canali al primo avvio
+  loadMyChannels();
+
   // Risolvi / Verifica Canale WhatsApp
   document.getElementById('btn-resolve-channel').addEventListener('click', async () => {
     const input = document.getElementById('channel-link');
@@ -702,6 +748,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (data.jid) document.getElementById('channel-jid').value = data.jid;
         if (data.name) document.getElementById('channel-name').value = data.name;
         showToast(`Canale "${data.name || 'WhatsApp'}" verificato! Premi "Salva Canale".`, 'success');
+        loadMyChannels();
       } else {
         showToast(data.error || 'Impossibile verificare il canale', 'error');
       }

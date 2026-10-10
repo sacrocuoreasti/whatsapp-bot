@@ -33,8 +33,8 @@ const DEFAULT_CONFIG = {
   channel: {
     enabled: true,
     link: 'https://whatsapp.com/channel/0029VbC4hP4GZNCor76Om40q',
-    jid: '',
-    name: 'Parrocchia Sacro Cuore Asti',
+    jid: '120363423706225795@newsletter',
+    name: 'Sacro Cuore Asti',
     publishedPostIds: []
   },
   logs: []

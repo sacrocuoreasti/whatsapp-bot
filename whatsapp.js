@@ -697,59 +697,104 @@ async function safeQuery(query, timeoutMs = 4000) {
   ]);
 }
 
-// Ottieni i canali di cui l'account connesso è amministratore o iscritto
+// Ottieni i canali di cui l'account connesso è amministratore, iscritto o noti nei log
 async function getMyNewsletters() {
-  if (connectionState !== 'CONNECTED' || !sock) return [];
-  const results = [];
-  try {
-    const query = {
-      tag: 'iq',
-      attrs: {
-        to: 's.whatsapp.net',
-        xmlns: 'newsletter',
-        type: 'get',
-        id: sock.generateMessageTag()
-      },
-      content: [
-        {
-          tag: 'newsletter',
-          attrs: { type: 'admin' }
-        }
-      ]
-    };
-    const res = await safeQuery(query, 3000);
-    if (res?.content && Array.isArray(res.content)) {
-      for (const node of res.content) {
-        if (node.tag === 'newsletter' || node.tag === 'channel') {
-          const jid = (node.attrs?.id || node.attrs?.jid || '').endsWith('@newsletter') 
-            ? (node.attrs?.id || node.attrs?.jid) 
-            : (node.attrs?.id || node.attrs?.jid ? `${node.attrs?.id || node.attrs?.jid}@newsletter` : null);
-          let name = 'Canale';
-          if (node.content && Array.isArray(node.content)) {
-            for (const sub of node.content) {
-              if (sub.tag === 'metadata' && Array.isArray(sub.content)) {
-                for (const m of sub.content) {
-                  if (m.tag === 'name' && m.content) name = m.content.toString();
-                }
-              }
-            }
+  const config = getConfig();
+  const channelMap = new Map();
+
+  // 1. Canale attualmente salvato
+  if (config.channel?.jid) {
+    channelMap.set(config.channel.jid, {
+      jid: config.channel.jid,
+      name: config.channel.name || 'Canale Attivo',
+      link: config.channel.link || ''
+    });
+  }
+
+  // 2. Canali storici noti
+  channelMap.set('120363423706225795@newsletter', {
+    jid: '120363423706225795@newsletter',
+    name: 'Sacro Cuore Asti',
+    link: 'https://whatsapp.com/channel/0029VbC4hP4GZNCor76Om40q'
+  });
+  channelMap.set('120363432155030916@newsletter', {
+    jid: '120363432155030916@newsletter',
+    name: 'test bot',
+    link: ''
+  });
+
+  // 3. Estrai canali apparsi nei log
+  if (Array.isArray(config.logs)) {
+    for (const log of config.logs) {
+      const text = `${log.message || ''} ${JSON.stringify(log.details || {})}`;
+      const matches = text.match(/(120363\d{10,18}@newsletter)/g);
+      if (matches) {
+        for (const jid of matches) {
+          if (!channelMap.has(jid)) {
+            channelMap.set(jid, { jid, name: jid === '120363423706225795@newsletter' ? 'Sacro Cuore Asti' : 'Canale WhatsApp', link: '' });
           }
-          if (jid) results.push({ jid, name });
         }
       }
     }
-  } catch (err) {
-    // Timeout o non supportato
   }
-  return results;
+
+  // 4. Se WhatsApp è connesso, interroga Baileys per canali admin e iscritti
+  if (connectionState === 'CONNECTED' && sock) {
+    for (const queryType of ['admin', 'subscribed']) {
+      try {
+        const query = {
+          tag: 'iq',
+          attrs: {
+            to: 's.whatsapp.net',
+            xmlns: 'newsletter',
+            type: 'get',
+            id: sock.generateMessageTag()
+          },
+          content: [
+            {
+              tag: 'newsletter',
+              attrs: { type: queryType }
+            }
+          ]
+        };
+        const res = await safeQuery(query, 3500);
+
+        function extractNewsletters(node) {
+          if (!node) return;
+          if (node.attrs?.id || node.attrs?.jid) {
+            const raw = node.attrs?.id || node.attrs?.jid;
+            if (raw.includes('@newsletter') || /^\d{10,}$/.test(raw)) {
+              const jid = raw.endsWith('@newsletter') ? raw : `${raw}@newsletter`;
+              let name = 'Canale';
+              if (Array.isArray(node.content)) {
+                for (const sub of node.content) {
+                  if (sub.tag === 'metadata' && Array.isArray(sub.content)) {
+                    for (const m of sub.content) {
+                      if (m.tag === 'name' && m.content) name = m.content.toString();
+                    }
+                  }
+                  if (sub.tag === 'name' && sub.content) name = sub.content.toString();
+                }
+              }
+              channelMap.set(jid, { jid, name, link: '' });
+            }
+          }
+          if (Array.isArray(node.content)) {
+            for (const child of node.content) extractNewsletters(child);
+          }
+        }
+        extractNewsletters(res);
+      } catch (err) {
+        // Ignora timeout query
+      }
+    }
+  }
+
+  return Array.from(channelMap.values());
 }
 
 // Risolve il link o codice di un canale WhatsApp in JID
 async function resolveChannel(input) {
-  if (connectionState !== 'CONNECTED' || !sock) {
-    throw new Error('WhatsApp non è attualmente connesso.');
-  }
-
   let str = String(input || '').trim();
   if (!str) throw new Error('Inserisci un link o un codice canale');
 
@@ -762,49 +807,61 @@ async function resolveChannel(input) {
 
   if (!inviteCode) throw new Error('Codice canale non riconosciuto dal link.');
 
-  // Prova interrogazione IQ protocollo newsletter con le due varianti di schema WhatsApp
-  const queries = [
-    {
-      tag: 'iq',
-      attrs: { to: 's.whatsapp.net', xmlns: 'newsletter', type: 'get', id: sock.generateMessageTag() },
-      content: [{ tag: 'newsletter', attrs: { type: 'invite', key: inviteCode } }]
-    },
-    {
-      tag: 'iq',
-      attrs: { to: 's.whatsapp.net', xmlns: 'newsletter', type: 'get', id: sock.generateMessageTag() },
-      content: [{ tag: 'metadata', attrs: {}, content: [{ tag: 'invite', attrs: { key: inviteCode } }] }]
-    }
-  ];
+  // Mappatura canale ufficiale Parrocchia Sacro Cuore Asti
+  if (inviteCode === '0029VbC4hP4GZNCor76Om40q') {
+    return {
+      jid: '120363423706225795@newsletter',
+      name: 'Sacro Cuore Asti',
+      inviteCode,
+      link: 'https://whatsapp.com/channel/0029VbC4hP4GZNCor76Om40q'
+    };
+  }
 
-  for (const q of queries) {
-    try {
-      const res = await safeQuery(q, 3500);
-      let jid = null;
-      let name = 'Canale WhatsApp';
+  // Interrogazione IQ protocollo newsletter
+  if (connectionState === 'CONNECTED' && sock) {
+    const queries = [
+      {
+        tag: 'iq',
+        attrs: { to: 's.whatsapp.net', xmlns: 'newsletter', type: 'get', id: sock.generateMessageTag() },
+        content: [{ tag: 'newsletter', attrs: { type: 'invite', key: inviteCode } }]
+      },
+      {
+        tag: 'iq',
+        attrs: { to: 's.whatsapp.net', xmlns: 'newsletter', type: 'get', id: sock.generateMessageTag() },
+        content: [{ tag: 'metadata', attrs: {}, content: [{ tag: 'invite', attrs: { key: inviteCode } }] }]
+      }
+    ];
 
-      function findJidAndName(node) {
-        if (!node) return;
-        if (node.attrs?.id || node.attrs?.jid) {
-          const raw = node.attrs?.id || node.attrs?.jid;
-          if (raw.includes('@newsletter') || /^\d{10,}$/.test(raw)) {
-            jid = raw.endsWith('@newsletter') ? raw : `${raw}@newsletter`;
+    for (const q of queries) {
+      try {
+        const res = await safeQuery(q, 3500);
+        let jid = null;
+        let name = 'Canale WhatsApp';
+
+        function findJidAndName(node) {
+          if (!node) return;
+          if (node.attrs?.id || node.attrs?.jid) {
+            const raw = node.attrs?.id || node.attrs?.jid;
+            if (raw.includes('@newsletter') || /^\d{10,}$/.test(raw)) {
+              jid = raw.endsWith('@newsletter') ? raw : `${raw}@newsletter`;
+            }
+          }
+          if (node.tag === 'name' && node.content) {
+            name = node.content.toString();
+          }
+          if (Array.isArray(node.content)) {
+            for (const c of node.content) findJidAndName(c);
           }
         }
-        if (node.tag === 'name' && node.content) {
-          name = node.content.toString();
-        }
-        if (Array.isArray(node.content)) {
-          for (const c of node.content) findJidAndName(c);
-        }
-      }
 
-      findJidAndName(res);
+        findJidAndName(res);
 
-      if (jid) {
-        return { jid, name, inviteCode };
+        if (jid) {
+          return { jid, name, inviteCode };
+        }
+      } catch (iqErr) {
+        // Ignora e passa oltre
       }
-    } catch (iqErr) {
-      // Ignora e passa oltre
     }
   }
 

@@ -454,6 +454,16 @@ Verify Token: <span id="meta-webhook-verify-token">...</span></code></pre>
             </ul>
           </div>
 
+          <div class="channel-quick-select-box" style="margin-bottom: 14px; padding: 12px; background: rgba(59, 130, 246, 0.08); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 8px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <span style="font-weight: 600; font-size: 0.85rem; color: #60a5fa;">📋 Canali WhatsApp Rilevati</span>
+              <button type="button" id="btn-load-my-channels" class="btn btn-secondary btn-xs">🔄 Aggiorna Elenco</button>
+            </div>
+            <select id="channel-quick-select" class="form-control" style="width: 100%; padding: 8px 12px; font-size: 0.85rem; border-radius: 6px; background: #1e293b; color: #fff; border: 1px solid #475569;">
+              <option value="">-- Seleziona un canale rilevato o compila i campi sotto --</option>
+            </select>
+          </div>
+
           <form id="channel-form">
             <div class="form-group">
               <label for="channel-link">Link o Codice Canale WhatsApp</label>
