@@ -1,0 +1,913 @@
+{
+  "adminEmail": "admin@sacrocuoreasti.com",
+  "adminPassword": "admin123",
+  "apiToken": "sc_a8afa768054f80880624f9bd7a1a4b858d8ac62a5fb270b0",
+  "adminNotifyNumber": "393487856692",
+  "serverUrl": "",
+  "instagram": {
+    "enabled": true,
+    "username": "sacrocuoreasti",
+    "checkIntervalMinutes": 15,
+    "lastStoryId": null,
+    "webhookSecret": "0eeafa0c32d7c54a5a823c36131c4f24",
+    "appId": "0d61487b3a6f54b52fec565e54ee9918",
+    "metaAccessToken": "IGAANVzZC4L4lRBZAFppT2d1SVRUZA0huTWo2cjhISjlJQm8yekJ3N3g2TnZAvTGl1b2ZAENmVFb0pwZAm5oZA0swUXlGT2ZAQcDNrUnBvcjhqekh2RXNQQ3p6Mm5TSXY1OWx6bWctTDRreDVTdUFGZAUJvdmlGS3ZAlLVBQU3FoSUd4bG5CdwZDZD",
+    "instagramAccountId": "39490792217178432",
+    "publishedStoryIds": [
+      "17919222474242779",
+      "18136473280632142",
+      "18157983289506277",
+      "18120779626869877",
+      "18116212622050932",
+      "17991868617112526"
+    ]
+  },
+  "channel": {
+    "enabled": true,
+    "id": "test",
+    "name": "test bot (Canale Test)",
+    "link": "https://whatsapp.com/channel/0029Vb9EnnlKmCPKtLzdkb2i",
+    "jid": "120363432155030916@newsletter",
+    "publishedPostIds": [
+      "18284103994289749",
+      "17912838720287998",
+      "17962820547206288",
+      "18115121162519094",
+      "18434651953196417",
+      "18029242229905524",
+      "18414949825156210",
+      "17914872456453701",
+      "18106341665075998",
+      "18117005255515239",
+      "18344959756251242",
+      "17929029270166098",
+      "18093138623399846",
+      "17942529990359312",
+      "18097949075639919",
+      "18007176527976989",
+      "18114702598777467",
+      "18137186674578056",
+      "18064568927757449",
+      "17909794989463176",
+      "18114132532733254",
+      "18122883235796680",
+      "18182663857404786",
+      "18078627524296100",
+      "18091621136671780",
+      "18145389940574080"
+    ]
+  },
+  "logs": [
+    {
+      "id": "mv3q8f0rmvefa",
+      "type": "send",
+      "message": "Messaggio inviato a 393487856692",
+      "details": {
+        "jid": "393487856692@s.whatsapp.net",
+        "preview": "🚀 Test invio da Gateway WhatsApp Sacro Cuore Asti!",
+        "messageId": "3EB0E212CFC0BF593DF12E"
+      },
+      "timestamp": "2026-10-11T11:15:23.787Z"
+    },
+    {
+      "id": "mv3q6bdmoi91j",
+      "type": "channel_post",
+      "message": "Pubblicato test nel canale WhatsApp",
+      "details": {
+        "channelJid": "120363432155030916@newsletter",
+        "type": "test",
+        "caption": "🔔 Messaggio di Test con FOTO dal Bot WhatsApp Sac",
+        "messageId": "3EB0018458C636CBF30C33"
+      },
+      "timestamp": "2026-10-11T11:13:45.754Z"
+    },
+    {
+      "id": "mv3q67iriy75m",
+      "type": "channel_post",
+      "message": "Pubblicato test nel canale WhatsApp",
+      "details": {
+        "channelJid": "120363432155030916@newsletter",
+        "type": "test",
+        "caption": "🔔 Messaggio di Test dal Bot WhatsApp Sacro Cuore!",
+        "messageId": "3EB0E8808C7754AB191CB5"
+      },
+      "timestamp": "2026-10-11T11:13:40.755Z"
+    },
+    {
+      "id": "mv3q5yokinzjc",
+      "type": "auth",
+      "message": "Accesso effettuato con successo (admin@sacrocuoreasti.com)",
+      "details": null,
+      "timestamp": "2026-10-11T11:13:29.300Z"
+    },
+    {
+      "id": "mv3q5x3y44ch0",
+      "type": "warning",
+      "message": "Tentativo di accesso fallito per admin@sacrocuoreasti.com",
+      "details": null,
+      "timestamp": "2026-10-11T11:13:27.263Z"
+    },
+    {
+      "id": "mv3q4u4vrlmu7",
+      "type": "channel_post",
+      "message": "Pubblicato test nel canale WhatsApp",
+      "details": {
+        "channelJid": "120363432155030916@newsletter",
+        "type": "test",
+        "caption": "🔔 Messaggio di Test con FOTO dal Bot WhatsApp Sac",
+        "messageId": "3EB08CAA1668E4F5C6FDDA"
+      },
+      "timestamp": "2026-10-11T11:12:36.751Z"
+    },
+    {
+      "id": "mv3q4jyk2s213",
+      "type": "channel_post",
+      "message": "Pubblicato test nel canale WhatsApp",
+      "details": {
+        "channelJid": "120363432155030916@newsletter",
+        "type": "test",
+        "caption": "🔔 Messaggio di Test dal Bot WhatsApp Sacro Cuore!",
+        "messageId": "3EB05CAADEDE3C09151799"
+      },
+      "timestamp": "2026-10-11T11:12:23.564Z"
+    },
+    {
+      "id": "mv3q4g9e1h143",
+      "type": "config",
+      "message": "Impostazioni Canale WhatsApp aggiornate",
+      "details": {
+        "link": "https://whatsapp.com/channel/0029Vb9EnnlKmCPKtLzdkb2i",
+        "jid": "120363432155030916@newsletter",
+        "name": "test bot"
+      },
+      "timestamp": "2026-10-11T11:12:18.770Z"
+    },
+    {
+      "id": "mv3q43m7cwo87",
+      "type": "instagram",
+      "message": "Storia Instagram (17991868617112526) pubblicata come stato WhatsApp",
+      "details": {
+        "storyId": "17991868617112526",
+        "mediaType": "IMAGE",
+        "caption": "Domenica 18 ottobre, ore 11:00 I nostri cresimandi ❤️‍🔥"
+      },
+      "timestamp": "2026-10-11T11:12:02.383Z"
+    },
+    {
+      "id": "mv3q43m7ilmyb",
+      "type": "status_publish",
+      "message": "Stato WhatsApp pubblicato (ID: 3EB049FF23859CB8E96062)",
+      "details": {
+        "type": "image",
+        "messageId": "3EB049FF23859CB8E96062",
+        "recipientsCount": 189,
+        "caption": "Domenica 18 ottobre, ore 11:00 I nostri cresimandi ❤️‍🔥"
+      },
+      "timestamp": "2026-10-11T11:12:02.383Z"
+    },
+    {
+      "id": "mv3q42p95wcnv",
+      "type": "auth",
+      "message": "Accesso effettuato con successo (admin@sacrocuoreasti.com)",
+      "details": null,
+      "timestamp": "2026-10-11T11:12:01.197Z"
+    },
+    {
+      "id": "mv3q3tpeuwgx4",
+      "type": "info",
+      "message": "Messaggio di avvenuto riavvio inviato a 393487856692",
+      "details": null,
+      "timestamp": "2026-10-11T11:11:49.538Z"
+    },
+    {
+      "id": "mv3q3rewkykxu",
+      "type": "success",
+      "message": "WhatsApp connesso con successo (+393792429531)",
+      "details": null,
+      "timestamp": "2026-10-11T11:11:46.568Z"
+    },
+    {
+      "id": "mv2ziaf9blzy2",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 440 (Stream Errored (conflict))",
+      "details": null,
+      "timestamp": "2026-10-10T22:47:14.757Z"
+    },
+    {
+      "id": "mv2zi8sur6dzw",
+      "type": "success",
+      "message": "WhatsApp connesso con successo (+393792429531)",
+      "details": null,
+      "timestamp": "2026-10-10T22:47:12.654Z"
+    },
+    {
+      "id": "mv2zi6ruse9dj",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 440 (Stream Errored (conflict))",
+      "details": null,
+      "timestamp": "2026-10-10T22:47:10.026Z"
+    },
+    {
+      "id": "mv2zi5g2teho8",
+      "type": "success",
+      "message": "WhatsApp connesso con successo (+393792429531)",
+      "details": null,
+      "timestamp": "2026-10-10T22:47:08.306Z"
+    },
+    {
+      "id": "mv2zi3e2gwmom",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 440 (Stream Errored (conflict))",
+      "details": null,
+      "timestamp": "2026-10-10T22:47:05.642Z"
+    },
+    {
+      "id": "mv2zi22uowr8m",
+      "type": "success",
+      "message": "WhatsApp connesso con successo (+393792429531)",
+      "details": null,
+      "timestamp": "2026-10-10T22:47:03.942Z"
+    },
+    {
+      "id": "mv2zi00a2hgt8",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 440 (Stream Errored (conflict))",
+      "details": null,
+      "timestamp": "2026-10-10T22:47:01.258Z"
+    },
+    {
+      "id": "mv2zhyslod2ro",
+      "type": "success",
+      "message": "WhatsApp connesso con successo (+393792429531)",
+      "details": null,
+      "timestamp": "2026-10-10T22:46:59.685Z"
+    },
+    {
+      "id": "mv2zhw7avrs6r",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 440 (Stream Errored (conflict))",
+      "details": null,
+      "timestamp": "2026-10-10T22:46:56.326Z"
+    },
+    {
+      "id": "mv2zhv05hl37e",
+      "type": "success",
+      "message": "WhatsApp connesso con successo (+393792429531)",
+      "details": null,
+      "timestamp": "2026-10-10T22:46:54.773Z"
+    },
+    {
+      "id": "mv2zhsvbrujij",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 440 (Stream Errored (conflict))",
+      "details": null,
+      "timestamp": "2026-10-10T22:46:52.007Z"
+    },
+    {
+      "id": "mv2zhrkip3gph",
+      "type": "success",
+      "message": "WhatsApp connesso con successo (+393792429531)",
+      "details": null,
+      "timestamp": "2026-10-10T22:46:50.322Z"
+    },
+    {
+      "id": "mv2zhpd51pu8n",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 440 (Stream Errored (conflict))",
+      "details": null,
+      "timestamp": "2026-10-10T22:46:47.465Z"
+    },
+    {
+      "id": "mv2zhnl8z54om",
+      "type": "success",
+      "message": "WhatsApp connesso con successo (+393792429531)",
+      "details": null,
+      "timestamp": "2026-10-10T22:46:45.164Z"
+    },
+    {
+      "id": "mv2zhljpmtbod",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 440 (Stream Errored (conflict))",
+      "details": null,
+      "timestamp": "2026-10-10T22:46:42.517Z"
+    },
+    {
+      "id": "mv2zhjxkw8ny9",
+      "type": "success",
+      "message": "WhatsApp connesso con successo (+393792429531)",
+      "details": null,
+      "timestamp": "2026-10-10T22:46:40.424Z"
+    },
+    {
+      "id": "mv2zhhqff6cmx",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 440 (Stream Errored (conflict))",
+      "details": null,
+      "timestamp": "2026-10-10T22:46:37.575Z"
+    },
+    {
+      "id": "mv2zhgbrxqfz7",
+      "type": "success",
+      "message": "WhatsApp connesso con successo (+393792429531)",
+      "details": null,
+      "timestamp": "2026-10-10T22:46:35.751Z"
+    },
+    {
+      "id": "mv2zhebi3ag3x",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 440 (Stream Errored (conflict))",
+      "details": null,
+      "timestamp": "2026-10-10T22:46:33.150Z"
+    },
+    {
+      "id": "mv2zhcn9ufkwd",
+      "type": "success",
+      "message": "WhatsApp connesso con successo (+393792429531)",
+      "details": null,
+      "timestamp": "2026-10-10T22:46:30.981Z"
+    },
+    {
+      "id": "mv2zhaiq57h6b",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 440 (Stream Errored (conflict))",
+      "details": null,
+      "timestamp": "2026-10-10T22:46:28.226Z"
+    },
+    {
+      "id": "mv2zh8ji9nbvv",
+      "type": "success",
+      "message": "WhatsApp connesso con successo (+393792429531)",
+      "details": null,
+      "timestamp": "2026-10-10T22:46:25.662Z"
+    },
+    {
+      "id": "mv2zh6cn0kbzy",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 440 (Stream Errored (conflict))",
+      "details": null,
+      "timestamp": "2026-10-10T22:46:22.823Z"
+    },
+    {
+      "id": "mv2zh4lpjx83f",
+      "type": "success",
+      "message": "WhatsApp connesso con successo (+393792429531)",
+      "details": null,
+      "timestamp": "2026-10-10T22:46:20.557Z"
+    },
+    {
+      "id": "mv2zh2fkkya19",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 440 (Stream Errored (conflict))",
+      "details": null,
+      "timestamp": "2026-10-10T22:46:17.744Z"
+    },
+    {
+      "id": "mv2zh13tdhmaa",
+      "type": "success",
+      "message": "WhatsApp connesso con successo (+393792429531)",
+      "details": null,
+      "timestamp": "2026-10-10T22:46:16.025Z"
+    },
+    {
+      "id": "mv2zgz19ez1kk",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 440 (Stream Errored (conflict))",
+      "details": null,
+      "timestamp": "2026-10-10T22:46:13.341Z"
+    },
+    {
+      "id": "mv2zgx8qg0r73",
+      "type": "success",
+      "message": "WhatsApp connesso con successo (+393792429531)",
+      "details": null,
+      "timestamp": "2026-10-10T22:46:11.018Z"
+    },
+    {
+      "id": "mv2zgv5b0w5us",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 440 (Stream Errored (conflict))",
+      "details": null,
+      "timestamp": "2026-10-10T22:46:08.303Z"
+    },
+    {
+      "id": "mv2zgtpfcwhb2",
+      "type": "success",
+      "message": "WhatsApp connesso con successo (+393792429531)",
+      "details": null,
+      "timestamp": "2026-10-10T22:46:06.435Z"
+    },
+    {
+      "id": "mv2zgrnuou9ye",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 440 (Stream Errored (conflict))",
+      "details": null,
+      "timestamp": "2026-10-10T22:46:03.786Z"
+    },
+    {
+      "id": "mv2zgq3997ntq",
+      "type": "success",
+      "message": "WhatsApp connesso con successo (+393792429531)",
+      "details": null,
+      "timestamp": "2026-10-10T22:46:01.749Z"
+    },
+    {
+      "id": "mv2zgo1azqqhs",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 440 (Stream Errored (conflict))",
+      "details": null,
+      "timestamp": "2026-10-10T22:45:59.086Z"
+    },
+    {
+      "id": "mv2zgmpc2kio7",
+      "type": "success",
+      "message": "WhatsApp connesso con successo (+393792429531)",
+      "details": null,
+      "timestamp": "2026-10-10T22:45:57.360Z"
+    },
+    {
+      "id": "mv2zgknbg3xvj",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 440 (Stream Errored (conflict))",
+      "details": null,
+      "timestamp": "2026-10-10T22:45:54.695Z"
+    },
+    {
+      "id": "mv2zfubdj9yh5",
+      "type": "send",
+      "message": "Messaggio inviato a 393487856692",
+      "details": {
+        "jid": "393487856692@s.whatsapp.net",
+        "preview": "🚀 Test invio da Gateway WhatsApp Sacro Cuore Asti!",
+        "messageId": "3EB08B2C4A8F55F8A9C8D3"
+      },
+      "timestamp": "2026-10-10T22:45:20.569Z"
+    },
+    {
+      "id": "mv2z9fixx6uw6",
+      "type": "channel",
+      "message": "JID Canale WhatsApp rilevato automaticamente: 120363423706225795@newsletter (Sacro Cuore Asti)",
+      "details": null,
+      "timestamp": "2026-10-10T22:40:21.465Z"
+    },
+    {
+      "id": "mv2ypzi2j4qvs",
+      "type": "send",
+      "message": "Messaggio inviato a 393487856692",
+      "details": {
+        "jid": "393487856692@s.whatsapp.net",
+        "preview": "🚀 Test invio da Gateway WhatsApp Sacro Cuore Asti!",
+        "messageId": "3EB01251EC7AAA80F615E3"
+      },
+      "timestamp": "2026-10-10T22:25:14.235Z"
+    },
+    {
+      "id": "mv2ynfwohodfb",
+      "type": "send",
+      "message": "Messaggio inviato a 393487856692",
+      "details": {
+        "jid": "393487856692@s.whatsapp.net",
+        "preview": "🚀 Test invio da Gateway WhatsApp Sacro Cuore Asti!",
+        "messageId": "3EB0F734AC8127657ACCD1"
+      },
+      "timestamp": "2026-10-10T22:23:15.528Z"
+    },
+    {
+      "id": "mv2ynbkiut5e7",
+      "type": "auth",
+      "message": "Accesso effettuato con successo (admin@sacrocuoreasti.com)",
+      "details": null,
+      "timestamp": "2026-10-10T22:23:09.906Z"
+    },
+    {
+      "id": "mv2ymn8861q08",
+      "type": "info",
+      "message": "Messaggio di avvenuto riavvio inviato a 393487856692",
+      "details": null,
+      "timestamp": "2026-10-10T22:22:38.360Z"
+    },
+    {
+      "id": "mv2yml2k92k1i",
+      "type": "success",
+      "message": "WhatsApp connesso con successo (+393792429531)",
+      "details": null,
+      "timestamp": "2026-10-10T22:22:35.564Z"
+    },
+    {
+      "id": "mv2yfo5zeyb7g",
+      "type": "send",
+      "message": "Messaggio inviato a 393487856692",
+      "details": {
+        "jid": "393487856692@s.whatsapp.net",
+        "preview": "🚀 Test invio da Gateway WhatsApp Sacro Cuore Asti!",
+        "messageId": "3EB070CB8BDAC4B9A27487"
+      },
+      "timestamp": "2026-10-10T22:17:12.983Z"
+    },
+    {
+      "id": "mv2yc6zjkvyfe",
+      "type": "send",
+      "message": "Messaggio inviato a 393487856692",
+      "details": {
+        "jid": "393487856692@s.whatsapp.net",
+        "preview": "🚀 Test invio da Gateway WhatsApp Sacro Cuore Asti!",
+        "messageId": "3EB0FEC11881D578BE15D5"
+      },
+      "timestamp": "2026-10-10T22:14:30.751Z"
+    },
+    {
+      "id": "mv2wfa9u14jqi",
+      "type": "instagram",
+      "message": "Storia Instagram (18116212622050932) pubblicata come stato WhatsApp",
+      "details": {
+        "storyId": "18116212622050932",
+        "mediaType": "IMAGE"
+      },
+      "timestamp": "2026-10-10T21:20:55.746Z"
+    },
+    {
+      "id": "mv2wfa9snfwy4",
+      "type": "status_publish",
+      "message": "Stato WhatsApp pubblicato (ID: 3EB03F74A2CC20242240CC)",
+      "details": {
+        "type": "image",
+        "messageId": "3EB03F74A2CC20242240CC",
+        "recipientsCount": 189,
+        "caption": "Storia Instagram @sacrocuoreasti"
+      },
+      "timestamp": "2026-10-10T21:20:55.744Z"
+    },
+    {
+      "id": "mv2w05d5iji3l",
+      "type": "send",
+      "message": "Messaggio inviato a 393487856692",
+      "details": {
+        "jid": "393487856692@s.whatsapp.net",
+        "preview": "🚀 Test invio da Gateway WhatsApp Sacro Cuore Asti!",
+        "messageId": "3EB0717845FDB2F015BED7"
+      },
+      "timestamp": "2026-10-10T21:09:09.545Z"
+    },
+    {
+      "id": "mv2vvzasxmswz",
+      "type": "channel",
+      "message": "JID Canale WhatsApp rilevato: 120363432155030916@newsletter",
+      "details": null,
+      "timestamp": "2026-10-10T21:05:55.060Z"
+    },
+    {
+      "id": "mv2vvzaq44hl7",
+      "type": "channel_post",
+      "message": "Pubblicato IMAGE nel canale WhatsApp",
+      "details": {
+        "mediaType": "IMAGE",
+        "caption": "17/10",
+        "permalink": "https://www.instagram.com/p/DeU_Gpzx09y/"
+      },
+      "timestamp": "2026-10-10T21:05:55.058Z"
+    },
+    {
+      "id": "mv2vvzaqb9unu",
+      "type": "channel_post",
+      "message": "Pubblicato post nel canale WhatsApp",
+      "details": {
+        "channelJid": "120363432155030916@newsletter",
+        "type": "post",
+        "caption": "17/10",
+        "messageId": "3EB0A2B2D517BD95903B95"
+      },
+      "timestamp": "2026-10-10T21:05:55.058Z"
+    },
+    {
+      "id": "mv2vi82ryme7b",
+      "type": "channel",
+      "message": "JID Canale WhatsApp rilevato: 120363432155030916@newsletter",
+      "details": null,
+      "timestamp": "2026-10-10T20:55:13.251Z"
+    },
+    {
+      "id": "mv2vi82ooa6m6",
+      "type": "channel_post",
+      "message": "Pubblicato test nel canale WhatsApp",
+      "details": {
+        "channelJid": "120363432155030916@newsletter",
+        "type": "test",
+        "caption": "🔔 Messaggio di Test dal Bot WhatsApp Sacro Cuore!",
+        "messageId": "3EB0502E3777044DE21AC1"
+      },
+      "timestamp": "2026-10-10T20:55:13.248Z"
+    },
+    {
+      "id": "mv2vdkz9htr5l",
+      "type": "channel",
+      "message": "JID Canale WhatsApp rilevato: 120363432155030916@newsletter",
+      "details": null,
+      "timestamp": "2026-10-10T20:51:36.693Z"
+    },
+    {
+      "id": "mv2vdkz1fod1c",
+      "type": "channel_post",
+      "message": "Pubblicato IMAGE nel canale WhatsApp",
+      "details": {
+        "mediaType": "IMAGE",
+        "caption": "🟢XXVIII Domenica del Tempo Ordinario \n\nOrari dell",
+        "permalink": "https://www.instagram.com/p/DeRqUcuOGWd/"
+      },
+      "timestamp": "2026-10-10T20:51:36.685Z"
+    },
+    {
+      "id": "mv2vdkyzmxik5",
+      "type": "channel_post",
+      "message": "Pubblicato post nel canale WhatsApp",
+      "details": {
+        "channelJid": "120363432155030916@newsletter",
+        "type": "post",
+        "caption": "🟢XXVIII Domenica del Tempo Ordinario \n\nOrari dell",
+        "messageId": "3EB03818ABCFF9D12508EB"
+      },
+      "timestamp": "2026-10-10T20:51:36.683Z"
+    },
+    {
+      "id": "mv2vdg50sgi5r",
+      "type": "config",
+      "message": "Cronologia post del canale azzerata",
+      "details": null,
+      "timestamp": "2026-10-10T20:51:30.420Z"
+    },
+    {
+      "id": "mv2vdaqm56m2y",
+      "type": "auth",
+      "message": "Accesso effettuato con successo (admin@sacrocuoreasti.com)",
+      "details": null,
+      "timestamp": "2026-10-10T20:51:23.422Z"
+    },
+    {
+      "id": "mv2vcsv9woydw",
+      "type": "channel",
+      "message": "JID Canale WhatsApp rilevato: 120363432155030916@newsletter",
+      "details": null,
+      "timestamp": "2026-10-10T20:51:00.261Z"
+    },
+    {
+      "id": "mv2vcsv86jxvy",
+      "type": "channel_post",
+      "message": "Pubblicato test nel canale WhatsApp",
+      "details": {
+        "channelJid": "120363432155030916@newsletter",
+        "type": "test",
+        "caption": "🔔 Messaggio di Test con FOTO dal Bot WhatsApp Sac",
+        "messageId": "3EB0D7227A17A8F09B0866"
+      },
+      "timestamp": "2026-10-10T20:51:00.260Z"
+    },
+    {
+      "id": "mv2vcqz59l00a",
+      "type": "auth",
+      "message": "Accesso effettuato con successo (admin@sacrocuoreasti.com)",
+      "details": null,
+      "timestamp": "2026-10-10T20:50:57.809Z"
+    },
+    {
+      "id": "mv2vcolg1h0a1",
+      "type": "info",
+      "message": "Messaggio di avvenuto riavvio inviato a 393487856692",
+      "details": null,
+      "timestamp": "2026-10-10T20:50:54.724Z"
+    },
+    {
+      "id": "mv2vcmfvmwcu7",
+      "type": "success",
+      "message": "WhatsApp connesso con successo (+393792429531)",
+      "details": null,
+      "timestamp": "2026-10-10T20:50:51.931Z"
+    },
+    {
+      "id": "mv2vbwypunnmd",
+      "type": "channel",
+      "message": "JID Canale WhatsApp rilevato: 120363432155030916@newsletter",
+      "details": null,
+      "timestamp": "2026-10-10T20:50:18.913Z"
+    },
+    {
+      "id": "mv2vbwymcavdz",
+      "type": "channel_post",
+      "message": "Pubblicato test nel canale WhatsApp",
+      "details": {
+        "channelJid": "120363432155030916@newsletter",
+        "type": "test",
+        "caption": "🔔 Messaggio di Test con FOTO dal Bot WhatsApp Sac",
+        "messageId": "3EB0F2A060E9859A7B586A"
+      },
+      "timestamp": "2026-10-10T20:50:18.910Z"
+    },
+    {
+      "id": "mv2vbuyq64nes",
+      "type": "auth",
+      "message": "Accesso effettuato con successo (admin@sacrocuoreasti.com)",
+      "details": null,
+      "timestamp": "2026-10-10T20:50:16.322Z"
+    },
+    {
+      "id": "mv2vbflhcpjb3",
+      "type": "warning",
+      "message": "Tentativo di accesso fallito per undefined",
+      "details": null,
+      "timestamp": "2026-10-10T20:49:56.405Z"
+    },
+    {
+      "id": "mv2vb4407d73v",
+      "type": "info",
+      "message": "Messaggio di avvenuto riavvio inviato a 393487856692",
+      "details": null,
+      "timestamp": "2026-10-10T20:49:41.520Z"
+    },
+    {
+      "id": "mv2vb1ybwd83j",
+      "type": "success",
+      "message": "WhatsApp connesso con successo (+393792429531)",
+      "details": null,
+      "timestamp": "2026-10-10T20:49:38.723Z"
+    },
+    {
+      "id": "mv2v0fpn4lxpf",
+      "type": "channel",
+      "message": "JID Canale WhatsApp rilevato: 120363432155030916@newsletter",
+      "details": null,
+      "timestamp": "2026-10-10T20:41:23.339Z"
+    },
+    {
+      "id": "mv2uywchgt93u",
+      "type": "channel",
+      "message": "JID Canale WhatsApp rilevato: 120363432155030916@newsletter",
+      "details": null,
+      "timestamp": "2026-10-10T20:40:11.585Z"
+    },
+    {
+      "id": "mv2uywcf8x7qv",
+      "type": "channel_post",
+      "message": "Pubblicato test nel canale WhatsApp",
+      "details": {
+        "channelJid": "120363432155030916@newsletter",
+        "type": "test",
+        "caption": "🔔 Messaggio di Test dal Bot WhatsApp Sacro Cuore!",
+        "messageId": "3EB0F6B886094BC165D88B"
+      },
+      "timestamp": "2026-10-10T20:40:11.583Z"
+    },
+    {
+      "id": "mv2uytfjw1ypr",
+      "type": "channel",
+      "message": "JID Canale WhatsApp rilevato: 120363432155030916@newsletter",
+      "details": null,
+      "timestamp": "2026-10-10T20:40:07.807Z"
+    },
+    {
+      "id": "mv2uytfce245o",
+      "type": "channel_post",
+      "message": "Pubblicato test nel canale WhatsApp",
+      "details": {
+        "channelJid": "120363432155030916@newsletter",
+        "type": "test",
+        "caption": "🔔 Messaggio di Test con FOTO dal Bot WhatsApp Sac",
+        "messageId": "3EB0F8EF34023AD490BE36"
+      },
+      "timestamp": "2026-10-10T20:40:07.800Z"
+    },
+    {
+      "id": "mv2uy9mmcof98",
+      "type": "auth",
+      "message": "Accesso effettuato con successo (admin@sacrocuoreasti.com)",
+      "details": null,
+      "timestamp": "2026-10-10T20:39:42.142Z"
+    },
+    {
+      "id": "mv2uxjtheka03",
+      "type": "channel",
+      "message": "JID Canale WhatsApp rilevato: 120363432155030916@newsletter",
+      "details": null,
+      "timestamp": "2026-10-10T20:39:08.694Z"
+    },
+    {
+      "id": "mv2uxjtccx52m",
+      "type": "channel_post",
+      "message": "Pubblicato test nel canale WhatsApp",
+      "details": {
+        "channelJid": "120363432155030916@newsletter",
+        "type": "test",
+        "caption": "🔔 Messaggio di Test con FOTO dal Bot WhatsApp Sac",
+        "messageId": "3EB0D4F625110C3B858299"
+      },
+      "timestamp": "2026-10-10T20:39:08.688Z"
+    },
+    {
+      "id": "mv2uxidtjujjg",
+      "type": "auth",
+      "message": "Accesso effettuato con successo (admin@sacrocuoreasti.com)",
+      "details": null,
+      "timestamp": "2026-10-10T20:39:06.833Z"
+    },
+    {
+      "id": "mv2uxdmt98ylx",
+      "type": "info",
+      "message": "Messaggio di avvenuto riavvio inviato a 393487856692",
+      "details": null,
+      "timestamp": "2026-10-10T20:39:00.677Z"
+    },
+    {
+      "id": "mv2uxbhjt4321",
+      "type": "success",
+      "message": "WhatsApp connesso con successo (+393792429531)",
+      "details": null,
+      "timestamp": "2026-10-10T20:38:57.895Z"
+    },
+    {
+      "id": "mv2uice8uyyk9",
+      "type": "channel",
+      "message": "JID Canale WhatsApp rilevato: 120363432155030916@newsletter",
+      "details": null,
+      "timestamp": "2026-10-10T20:27:19.232Z"
+    },
+    {
+      "id": "mv2uice2x7nm0",
+      "type": "channel_post",
+      "message": "Pubblicato IMAGE nel canale WhatsApp",
+      "details": {
+        "mediaType": "IMAGE",
+        "caption": "🟢XXVIII Domenica del Tempo Ordinario \n\nOrari dell",
+        "permalink": "https://www.instagram.com/p/DeRqUcuOGWd/"
+      },
+      "timestamp": "2026-10-10T20:27:19.226Z"
+    },
+    {
+      "id": "mv2uice19pxho",
+      "type": "channel_post",
+      "message": "Pubblicato post nel canale WhatsApp",
+      "details": {
+        "channelJid": "120363432155030916@newsletter",
+        "type": "post",
+        "caption": "🟢XXVIII Domenica del Tempo Ordinario \n\nOrari dell",
+        "messageId": "3EB0645C30F75A5965F597"
+      },
+      "timestamp": "2026-10-10T20:27:19.225Z"
+    },
+    {
+      "id": "mv2ui8lr63vfx",
+      "type": "config",
+      "message": "Cronologia post del canale azzerata",
+      "details": null,
+      "timestamp": "2026-10-10T20:27:14.319Z"
+    },
+    {
+      "id": "mv2uhroopxnhy",
+      "type": "channel",
+      "message": "JID Canale WhatsApp rilevato: 120363432155030916@newsletter",
+      "details": null,
+      "timestamp": "2026-10-10T20:26:52.392Z"
+    },
+    {
+      "id": "mv2uhrol5j65w",
+      "type": "channel_post",
+      "message": "Pubblicato test nel canale WhatsApp",
+      "details": {
+        "channelJid": "120363432155030916@newsletter",
+        "type": "test",
+        "caption": "🔔 Messaggio di Test con FOTO dal Bot WhatsApp Sac",
+        "messageId": "3EB0FB31E0C3261A3FA0F8"
+      },
+      "timestamp": "2026-10-10T20:26:52.389Z"
+    },
+    {
+      "id": "mv2uho1tl9fko",
+      "type": "channel",
+      "message": "JID Canale WhatsApp rilevato: 120363432155030916@newsletter",
+      "details": null,
+      "timestamp": "2026-10-10T20:26:47.681Z"
+    },
+    {
+      "id": "mv2uho1qgoo3d",
+      "type": "channel_post",
+      "message": "Pubblicato test nel canale WhatsApp",
+      "details": {
+        "channelJid": "120363432155030916@newsletter",
+        "type": "test",
+        "caption": "🔔 Messaggio di Test dal Bot WhatsApp Sacro Cuore!",
+        "messageId": "3EB0D4509A4E44575BF2D3"
+      },
+      "timestamp": "2026-10-10T20:26:47.678Z"
+    }
+  ],
+  "activeChannelMode": "test",
+  "channels": {
+    "test": {
+      "id": "test",
+      "name": "test bot (Canale Test)",
+      "link": "https://whatsapp.com/channel/0029Vb9EnnlKmCPKtLzdkb2i",
+      "jid": "120363432155030916@newsletter"
+    },
+    "official": {
+      "id": "official",
+      "name": "Sacro Cuore Asti (Canale Ufficiale)",
+      "link": "https://whatsapp.com/channel/0029VbC4hP4GZNCor76Om40q",
+      "jid": "120363423706225795@newsletter"
+    }
+  }
+}

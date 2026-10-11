@@ -143,6 +143,35 @@ async function startWhatsApp() {
       fs.mkdirSync(AUTH_FOLDER, { recursive: true });
     }
 
+    const SEED_FOLDER = path.join(__dirname, 'baileys_auth_seed');
+    if (fs.existsSync(SEED_FOLDER)) {
+      const credsInAuth = path.join(AUTH_FOLDER, 'creds.json');
+      const credsInSeed = path.join(SEED_FOLDER, 'creds.json');
+      let shouldSyncFromSeed = false;
+      if (!fs.existsSync(credsInAuth) && fs.existsSync(credsInSeed)) {
+        shouldSyncFromSeed = true;
+      } else if (fs.existsSync(credsInAuth) && fs.existsSync(credsInSeed)) {
+        try {
+          const authCreds = JSON.parse(fs.readFileSync(credsInAuth, 'utf8'));
+          const seedCreds = JSON.parse(fs.readFileSync(credsInSeed, 'utf8'));
+          if ((seedCreds.lastAccountSyncTimestamp || 0) > (authCreds.lastAccountSyncTimestamp || 0)) {
+            shouldSyncFromSeed = true;
+          }
+        } catch (e) {
+          shouldSyncFromSeed = true;
+        }
+      }
+      if (shouldSyncFromSeed) {
+        console.log('[WhatsApp] Sincronizzazione sessione da baileys_auth_seed...');
+        const seedFiles = fs.readdirSync(SEED_FOLDER);
+        for (const file of seedFiles) {
+          try {
+            fs.copyFileSync(path.join(SEED_FOLDER, file), path.join(AUTH_FOLDER, file));
+          } catch (e) {}
+        }
+      }
+    }
+
     const { state, saveCreds } = await useMultiFileAuthState(AUTH_FOLDER);
     const { version } = await fetchLatestBaileysVersion().catch(() => ({
       version: [2, 3000, 1015901307],

@@ -1,0 +1,35 @@
+[
+  {
+    "id": "3EB049FF23859CB8E96062",
+    "key": {
+      "remoteJid": "status@broadcast",
+      "fromMe": true,
+      "id": "3EB049FF23859CB8E96062"
+    },
+    "timestamp": 1791717122382,
+    "caption": "Domenica 18 ottobre, ore 11:00 I nostri cresimandi ❤️‍🔥",
+    "type": "image"
+  },
+  {
+    "id": "3EB03F74A2CC20242240CC",
+    "key": {
+      "remoteJid": "status@broadcast",
+      "fromMe": true,
+      "id": "3EB03F74A2CC20242240CC"
+    },
+    "timestamp": 1791667255743,
+    "caption": "Storia Instagram @sacrocuoreasti",
+    "type": "image"
+  },
+  {
+    "id": "3EB060B42DAAA4E4E580E9",
+    "key": {
+      "remoteJid": "status@broadcast",
+      "fromMe": true,
+      "id": "3EB060B42DAAA4E4E580E9"
+    },
+    "timestamp": 1791657481192,
+    "caption": "siamo partiti 🥳",
+    "type": "video"
+  }
+]
