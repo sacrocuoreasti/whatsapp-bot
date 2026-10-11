@@ -120,6 +120,31 @@ app.post('/api/auth/logout', (req, res) => {
   res.json({ success: true, message: 'Disconnesso' });
 });
 
+app.post('/api/auth/change-password', requireWebAuth, (req, res) => {
+  const { currentPassword, newPassword, confirmPassword } = req.body;
+  const config = getConfig();
+
+  if (!currentPassword || !newPassword) {
+    return res.status(400).json({ success: false, error: 'Compila tutti i campi richiesti.' });
+  }
+
+  if (currentPassword !== config.adminPassword) {
+    return res.status(400).json({ success: false, error: 'La password attuale non è corretta.' });
+  }
+
+  if (newPassword.length < 6) {
+    return res.status(400).json({ success: false, error: 'La nuova password deve contenere almeno 6 caratteri.' });
+  }
+
+  if (confirmPassword && newPassword !== confirmPassword) {
+    return res.status(400).json({ success: false, error: 'Le due nuove password non coincidono.' });
+  }
+
+  updateConfig({ adminPassword: newPassword });
+  addLog('auth', 'Password amministratore modificata con successo');
+  return res.json({ success: true, message: 'Password aggiornata con successo!' });
+});
+
 // ============================================================
 // DASHBOARD PROTETTA
 // ============================================================

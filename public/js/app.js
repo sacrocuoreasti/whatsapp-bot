@@ -878,6 +878,86 @@ document.addEventListener('DOMContentLoaded', () => {
   // Aggiorna Log manuale
   document.getElementById('btn-refresh-logs').addEventListener('click', fetchConfigAndLogs);
 
+  // Gestione Modal Cambio Password
+  const pwdModal = document.getElementById('modal-change-pwd');
+  const btnOpenPwd = document.getElementById('btn-open-pwd-modal');
+  const btnClosePwd = document.getElementById('btn-close-pwd-modal');
+  const btnCancelPwd = document.getElementById('btn-cancel-pwd');
+  const formChangePwd = document.getElementById('form-change-pwd');
+  const pwdAlert = document.getElementById('pwd-modal-alert');
+
+  function openPwdModal() {
+    if (pwdModal) {
+      pwdModal.style.display = 'flex';
+      pwdAlert.innerHTML = '';
+      formChangePwd.reset();
+    }
+  }
+
+  function closePwdModal() {
+    if (pwdModal) {
+      pwdModal.style.display = 'none';
+      pwdAlert.innerHTML = '';
+      formChangePwd.reset();
+    }
+  }
+
+  if (btnOpenPwd) btnOpenPwd.addEventListener('click', openPwdModal);
+  if (btnClosePwd) btnClosePwd.addEventListener('click', closePwdModal);
+  if (btnCancelPwd) btnCancelPwd.addEventListener('click', closePwdModal);
+
+  if (pwdModal) {
+    pwdModal.addEventListener('click', (e) => {
+      if (e.target === pwdModal) closePwdModal();
+    });
+  }
+
+  if (formChangePwd) {
+    formChangePwd.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      pwdAlert.innerHTML = '';
+
+      const currentPassword = document.getElementById('input-curr-pwd').value;
+      const newPassword = document.getElementById('input-new-pwd').value;
+      const confirmPassword = document.getElementById('input-conf-pwd').value;
+
+      if (newPassword.length < 6) {
+        pwdAlert.innerHTML = '<div class="alert alert-danger" style="margin-bottom: 12px; font-size: 0.85rem;">La nuova password deve contenere almeno 6 caratteri.</div>';
+        return;
+      }
+
+      if (newPassword !== confirmPassword) {
+        pwdAlert.innerHTML = '<div class="alert alert-danger" style="margin-bottom: 12px; font-size: 0.85rem;">Le due nuove password non corrispondono.</div>';
+        return;
+      }
+
+      const saveBtn = document.getElementById('btn-save-pwd');
+      saveBtn.disabled = true;
+      saveBtn.textContent = 'Salvataggio...';
+
+      try {
+        const res = await fetch('/api/auth/change-password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ currentPassword, newPassword, confirmPassword })
+        });
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          showToast('Password aggiornata con successo!', 'success');
+          closePwdModal();
+        } else {
+          pwdAlert.innerHTML = `<div class="alert alert-danger" style="margin-bottom: 12px; font-size: 0.85rem;">${data.error || 'Errore durante la modifica della password.'}</div>`;
+        }
+      } catch (err) {
+        pwdAlert.innerHTML = '<div class="alert alert-danger" style="margin-bottom: 12px; font-size: 0.85rem;">Errore di connessione col server.</div>';
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Salva Password';
+      }
+    });
+  }
+
   // Logout
   document.getElementById('btn-logout').addEventListener('click', async () => {
     try {
