@@ -4,6 +4,21 @@
   "apiToken": "sc_a8afa768054f80880624f9bd7a1a4b858d8ac62a5fb270b0",
   "adminNotifyNumber": "393487856692",
   "serverUrl": "",
+  "activeChannelMode": "test",
+  "channels": {
+    "test": {
+      "id": "test",
+      "name": "test bot (Canale Test)",
+      "link": "https://whatsapp.com/channel/0029Vb9EnnlKmCPKtLzdkb2i",
+      "jid": "120363432155030916@newsletter"
+    },
+    "official": {
+      "id": "official",
+      "name": "Sacro Cuore Asti (Canale Ufficiale)",
+      "link": "https://whatsapp.com/channel/0029VbC4hP4GZNCor76Om40q",
+      "jid": "120363423706225795@newsletter"
+    }
+  },
   "instagram": {
     "enabled": true,
     "username": "sacrocuoreasti",
@@ -58,6 +73,371 @@
     ]
   },
   "logs": [
+    {
+      "id": "mv3rcb8b5bpr8",
+      "type": "channel_post",
+      "message": "Pubblicato test nel canale WhatsApp",
+      "details": {
+        "channelJid": "120363432155030916@newsletter",
+        "type": "test",
+        "caption": "🔔 Messaggio di Test dal Bot WhatsApp (Canale Test",
+        "messageId": "3EB0A03070C3BD8877716B"
+      },
+      "timestamp": "2026-10-11T11:46:25.115Z"
+    },
+    {
+      "id": "mv3rc7qy261j8",
+      "type": "send",
+      "message": "Messaggio inviato a 393487856692",
+      "details": {
+        "jid": "393487856692@s.whatsapp.net",
+        "preview": "🚀 Test invio da Gateway WhatsApp Sacro Cuore Asti!",
+        "messageId": "3EB0E100C1EE51CB69A946"
+      },
+      "timestamp": "2026-10-11T11:46:20.602Z"
+    },
+    {
+      "id": "mv3rc4oqup96w",
+      "type": "auth",
+      "message": "Accesso effettuato con successo (admin@sacrocuoreasti.com)",
+      "details": null,
+      "timestamp": "2026-10-11T11:46:16.634Z"
+    },
+    {
+      "id": "mv3rb93n05ybt",
+      "type": "channel_post",
+      "message": "Pubblicato test nel canale WhatsApp",
+      "details": {
+        "channelJid": "120363423706225795@newsletter",
+        "type": "test",
+        "caption": "🔔 Messaggio di Test dal Bot WhatsApp (Canale Uffi",
+        "messageId": "3EB002E514AED712389FC7"
+      },
+      "timestamp": "2026-10-11T11:45:35.699Z"
+    },
+    {
+      "id": "mv3rb15m9vs7s",
+      "type": "channel_post",
+      "message": "Pubblicato test nel canale WhatsApp",
+      "details": {
+        "channelJid": "120363423706225795@newsletter",
+        "type": "test",
+        "caption": "🔔 Messaggio di Test dal Bot WhatsApp (Canale Uffi",
+        "messageId": "3EB00EA6E6882620F8D660"
+      },
+      "timestamp": "2026-10-11T11:45:25.402Z"
+    },
+    {
+      "id": "mv3rayp0snxoi",
+      "type": "channel_post",
+      "message": "Pubblicato test nel canale WhatsApp",
+      "details": {
+        "channelJid": "120363432155030916@newsletter",
+        "type": "test",
+        "caption": "🔔 Messaggio di Test dal Bot WhatsApp (Canale Test",
+        "messageId": "3EB0410812CB620DB34243"
+      },
+      "timestamp": "2026-10-11T11:45:22.212Z"
+    },
+    {
+      "id": "mv3ravhs8nh6k",
+      "type": "channel_post",
+      "message": "Pubblicato test nel canale WhatsApp",
+      "details": {
+        "channelJid": "120363432155030916@newsletter",
+        "type": "test",
+        "caption": "🔔 Messaggio di Test dal Bot WhatsApp (Canale Test",
+        "messageId": "3EB0DD8B639439D8FD2EF3"
+      },
+      "timestamp": "2026-10-11T11:45:18.064Z"
+    },
+    {
+      "id": "mv3rasfljvb7t",
+      "type": "auth",
+      "message": "Accesso effettuato con successo (admin@sacrocuoreasti.com)",
+      "details": null,
+      "timestamp": "2026-10-11T11:45:14.097Z"
+    },
+    {
+      "id": "mv3r9z6hu1g03",
+      "type": "info",
+      "message": "Messaggio di avvenuto riavvio inviato a 393487856692",
+      "details": null,
+      "timestamp": "2026-10-11T11:44:36.185Z"
+    },
+    {
+      "id": "mv3r9x0wa45fy",
+      "type": "success",
+      "message": "WhatsApp connesso con successo (+393792429531)",
+      "details": null,
+      "timestamp": "2026-10-11T11:44:33.392Z"
+    },
+    {
+      "id": "mv3r9uws4duiz",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 408 (WebSocket Error (getaddrinfo ENOTFOUND web.whatsapp.com))",
+      "details": null,
+      "timestamp": "2026-10-11T11:44:30.652Z"
+    },
+    {
+      "id": "mv3r9tnx0so03",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 408 (WebSocket Error (getaddrinfo ENOTFOUND web.whatsapp.com))",
+      "details": null,
+      "timestamp": "2026-10-11T11:44:29.037Z"
+    },
+    {
+      "id": "mv3r9sfh4mm80",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 408 (WebSocket Error (getaddrinfo ENOTFOUND web.whatsapp.com))",
+      "details": null,
+      "timestamp": "2026-10-11T11:44:27.437Z"
+    },
+    {
+      "id": "mv3r9r6fssexh",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 408 (WebSocket Error (getaddrinfo ENOTFOUND web.whatsapp.com))",
+      "details": null,
+      "timestamp": "2026-10-11T11:44:25.815Z"
+    },
+    {
+      "id": "mv3r9pv3n0q4o",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 408 (WebSocket Error (getaddrinfo ENOTFOUND web.whatsapp.com))",
+      "details": null,
+      "timestamp": "2026-10-11T11:44:24.111Z"
+    },
+    {
+      "id": "mv3r9ojuzc326",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 408 (WebSocket Error (getaddrinfo ENOTFOUND web.whatsapp.com))",
+      "details": null,
+      "timestamp": "2026-10-11T11:44:22.410Z"
+    },
+    {
+      "id": "mv3r9nart48b8",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 408 (WebSocket Error (getaddrinfo ENOTFOUND web.whatsapp.com))",
+      "details": null,
+      "timestamp": "2026-10-11T11:44:20.787Z"
+    },
+    {
+      "id": "mv3r9m1qjk2rw",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 408 (WebSocket Error (getaddrinfo ENOTFOUND web.whatsapp.com))",
+      "details": null,
+      "timestamp": "2026-10-11T11:44:19.166Z"
+    },
+    {
+      "id": "mv3r9ksf97gi6",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 408 (WebSocket Error (getaddrinfo ENOTFOUND web.whatsapp.com))",
+      "details": null,
+      "timestamp": "2026-10-11T11:44:17.535Z"
+    },
+    {
+      "id": "mv3r9jjih6w3l",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 408 (WebSocket Error (getaddrinfo ENOTFOUND web.whatsapp.com))",
+      "details": null,
+      "timestamp": "2026-10-11T11:44:15.918Z"
+    },
+    {
+      "id": "mv3r9iaqc2sja",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 408 (WebSocket Error (getaddrinfo ENOTFOUND web.whatsapp.com))",
+      "details": null,
+      "timestamp": "2026-10-11T11:44:14.306Z"
+    },
+    {
+      "id": "mv3r9h0rxb1gr",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 408 (WebSocket Error (getaddrinfo ENOTFOUND web.whatsapp.com))",
+      "details": null,
+      "timestamp": "2026-10-11T11:44:12.651Z"
+    },
+    {
+      "id": "mv3r9fq50tz5e",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 408 (WebSocket Error (getaddrinfo ENOTFOUND web.whatsapp.com))",
+      "details": null,
+      "timestamp": "2026-10-11T11:44:10.973Z"
+    },
+    {
+      "id": "mv3r9eeliarnm",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 408 (WebSocket Error (getaddrinfo ENOTFOUND web.whatsapp.com))",
+      "details": null,
+      "timestamp": "2026-10-11T11:44:09.261Z"
+    },
+    {
+      "id": "mv3r9d5vfkift",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 408 (WebSocket Error (getaddrinfo ENOTFOUND web.whatsapp.com))",
+      "details": null,
+      "timestamp": "2026-10-11T11:44:07.651Z"
+    },
+    {
+      "id": "mv3r9bwwjbrz8",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 408 (WebSocket Error (getaddrinfo ENOTFOUND web.whatsapp.com))",
+      "details": null,
+      "timestamp": "2026-10-11T11:44:06.032Z"
+    },
+    {
+      "id": "mv3r9amrdnhvb",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 408 (WebSocket Error (getaddrinfo ENOTFOUND web.whatsapp.com))",
+      "details": null,
+      "timestamp": "2026-10-11T11:44:04.371Z"
+    },
+    {
+      "id": "mv3r99e73i9do",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 408 (WebSocket Error (getaddrinfo ENOTFOUND web.whatsapp.com))",
+      "details": null,
+      "timestamp": "2026-10-11T11:44:02.767Z"
+    },
+    {
+      "id": "mv3r985e36da4",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 408 (WebSocket Error (getaddrinfo ENOTFOUND web.whatsapp.com))",
+      "details": null,
+      "timestamp": "2026-10-11T11:44:01.154Z"
+    },
+    {
+      "id": "mv3r96wknp6nb",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 408 (WebSocket Error (getaddrinfo ENOTFOUND web.whatsapp.com))",
+      "details": null,
+      "timestamp": "2026-10-11T11:43:59.540Z"
+    },
+    {
+      "id": "mv3r95lzhcks3",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 408 (WebSocket Error (getaddrinfo ENOTFOUND web.whatsapp.com))",
+      "details": null,
+      "timestamp": "2026-10-11T11:43:57.863Z"
+    },
+    {
+      "id": "mv3r94avupn00",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 408 (WebSocket Error (getaddrinfo ENOTFOUND web.whatsapp.com))",
+      "details": null,
+      "timestamp": "2026-10-11T11:43:56.167Z"
+    },
+    {
+      "id": "mv3r93282emgj",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 408 (WebSocket Error (getaddrinfo ENOTFOUND web.whatsapp.com))",
+      "details": null,
+      "timestamp": "2026-10-11T11:43:54.560Z"
+    },
+    {
+      "id": "mv3r91tcmcz0e",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 408 (WebSocket Error (getaddrinfo ENOTFOUND web.whatsapp.com))",
+      "details": null,
+      "timestamp": "2026-10-11T11:43:52.944Z"
+    },
+    {
+      "id": "mv3r90km43d5f",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 408 (WebSocket Error (getaddrinfo ENOTFOUND web.whatsapp.com))",
+      "details": null,
+      "timestamp": "2026-10-11T11:43:51.334Z"
+    },
+    {
+      "id": "mv3r8zbx9sjdh",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 408 (WebSocket Error (getaddrinfo ENOTFOUND web.whatsapp.com))",
+      "details": null,
+      "timestamp": "2026-10-11T11:43:49.725Z"
+    },
+    {
+      "id": "mv3r8y2yc1rxr",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 408 (WebSocket Error (getaddrinfo ENOTFOUND web.whatsapp.com))",
+      "details": null,
+      "timestamp": "2026-10-11T11:43:48.106Z"
+    },
+    {
+      "id": "mv3r8wsoyh22w",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 408 (WebSocket Error (getaddrinfo ENOTFOUND web.whatsapp.com))",
+      "details": null,
+      "timestamp": "2026-10-11T11:43:46.440Z"
+    },
+    {
+      "id": "mv3r8vhy4pvun",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 408 (WebSocket Error (getaddrinfo ENOTFOUND web.whatsapp.com))",
+      "details": null,
+      "timestamp": "2026-10-11T11:43:44.758Z"
+    },
+    {
+      "id": "mv3r8u7btmr7u",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 408 (WebSocket Error (getaddrinfo ENOTFOUND web.whatsapp.com))",
+      "details": null,
+      "timestamp": "2026-10-11T11:43:43.079Z"
+    },
+    {
+      "id": "mv3r8syebfadu",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 408 (WebSocket Error (getaddrinfo ENOTFOUND web.whatsapp.com))",
+      "details": null,
+      "timestamp": "2026-10-11T11:43:41.462Z"
+    },
+    {
+      "id": "mv3r8rp04pqss",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 408 (WebSocket Error (getaddrinfo ENOTFOUND web.whatsapp.com))",
+      "details": null,
+      "timestamp": "2026-10-11T11:43:39.828Z"
+    },
+    {
+      "id": "mv3r8qg6aqn08",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 408 (WebSocket Error (getaddrinfo ENOTFOUND web.whatsapp.com))",
+      "details": null,
+      "timestamp": "2026-10-11T11:43:38.214Z"
+    },
+    {
+      "id": "mv3r8p7p6u2tx",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 408 (WebSocket Error (getaddrinfo ENOTFOUND web.whatsapp.com))",
+      "details": null,
+      "timestamp": "2026-10-11T11:43:36.613Z"
+    },
+    {
+      "id": "mv3r8nyv31kut",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 408 (WebSocket Error (getaddrinfo ENOTFOUND web.whatsapp.com))",
+      "details": null,
+      "timestamp": "2026-10-11T11:43:34.999Z"
+    },
+    {
+      "id": "mv3r8mp033vqd",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 408 (WebSocket Error (getaddrinfo ENOTFOUND web.whatsapp.com))",
+      "details": null,
+      "timestamp": "2026-10-11T11:43:33.348Z"
+    },
+    {
+      "id": "mv3r8le67zyti",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 408 (WebSocket Error (getaddrinfo ENOTFOUND web.whatsapp.com))",
+      "details": null,
+      "timestamp": "2026-10-11T11:43:31.662Z"
+    },
+    {
+      "id": "mv3r8k2y0f8zc",
+      "type": "warning",
+      "message": "Connessione WhatsApp chiusa: codice 408 (WebSocket Error (getaddrinfo ENOTFOUND web.whatsapp.com))",
+      "details": null,
+      "timestamp": "2026-10-11T11:43:29.962Z"
+    },
     {
       "id": "mv3q8f0rmvefa",
       "type": "send",
@@ -470,444 +850,6 @@
         "messageId": "3EB0F734AC8127657ACCD1"
       },
       "timestamp": "2026-10-10T22:23:15.528Z"
-    },
-    {
-      "id": "mv2ynbkiut5e7",
-      "type": "auth",
-      "message": "Accesso effettuato con successo (admin@sacrocuoreasti.com)",
-      "details": null,
-      "timestamp": "2026-10-10T22:23:09.906Z"
-    },
-    {
-      "id": "mv2ymn8861q08",
-      "type": "info",
-      "message": "Messaggio di avvenuto riavvio inviato a 393487856692",
-      "details": null,
-      "timestamp": "2026-10-10T22:22:38.360Z"
-    },
-    {
-      "id": "mv2yml2k92k1i",
-      "type": "success",
-      "message": "WhatsApp connesso con successo (+393792429531)",
-      "details": null,
-      "timestamp": "2026-10-10T22:22:35.564Z"
-    },
-    {
-      "id": "mv2yfo5zeyb7g",
-      "type": "send",
-      "message": "Messaggio inviato a 393487856692",
-      "details": {
-        "jid": "393487856692@s.whatsapp.net",
-        "preview": "🚀 Test invio da Gateway WhatsApp Sacro Cuore Asti!",
-        "messageId": "3EB070CB8BDAC4B9A27487"
-      },
-      "timestamp": "2026-10-10T22:17:12.983Z"
-    },
-    {
-      "id": "mv2yc6zjkvyfe",
-      "type": "send",
-      "message": "Messaggio inviato a 393487856692",
-      "details": {
-        "jid": "393487856692@s.whatsapp.net",
-        "preview": "🚀 Test invio da Gateway WhatsApp Sacro Cuore Asti!",
-        "messageId": "3EB0FEC11881D578BE15D5"
-      },
-      "timestamp": "2026-10-10T22:14:30.751Z"
-    },
-    {
-      "id": "mv2wfa9u14jqi",
-      "type": "instagram",
-      "message": "Storia Instagram (18116212622050932) pubblicata come stato WhatsApp",
-      "details": {
-        "storyId": "18116212622050932",
-        "mediaType": "IMAGE"
-      },
-      "timestamp": "2026-10-10T21:20:55.746Z"
-    },
-    {
-      "id": "mv2wfa9snfwy4",
-      "type": "status_publish",
-      "message": "Stato WhatsApp pubblicato (ID: 3EB03F74A2CC20242240CC)",
-      "details": {
-        "type": "image",
-        "messageId": "3EB03F74A2CC20242240CC",
-        "recipientsCount": 189,
-        "caption": "Storia Instagram @sacrocuoreasti"
-      },
-      "timestamp": "2026-10-10T21:20:55.744Z"
-    },
-    {
-      "id": "mv2w05d5iji3l",
-      "type": "send",
-      "message": "Messaggio inviato a 393487856692",
-      "details": {
-        "jid": "393487856692@s.whatsapp.net",
-        "preview": "🚀 Test invio da Gateway WhatsApp Sacro Cuore Asti!",
-        "messageId": "3EB0717845FDB2F015BED7"
-      },
-      "timestamp": "2026-10-10T21:09:09.545Z"
-    },
-    {
-      "id": "mv2vvzasxmswz",
-      "type": "channel",
-      "message": "JID Canale WhatsApp rilevato: 120363432155030916@newsletter",
-      "details": null,
-      "timestamp": "2026-10-10T21:05:55.060Z"
-    },
-    {
-      "id": "mv2vvzaq44hl7",
-      "type": "channel_post",
-      "message": "Pubblicato IMAGE nel canale WhatsApp",
-      "details": {
-        "mediaType": "IMAGE",
-        "caption": "17/10",
-        "permalink": "https://www.instagram.com/p/DeU_Gpzx09y/"
-      },
-      "timestamp": "2026-10-10T21:05:55.058Z"
-    },
-    {
-      "id": "mv2vvzaqb9unu",
-      "type": "channel_post",
-      "message": "Pubblicato post nel canale WhatsApp",
-      "details": {
-        "channelJid": "120363432155030916@newsletter",
-        "type": "post",
-        "caption": "17/10",
-        "messageId": "3EB0A2B2D517BD95903B95"
-      },
-      "timestamp": "2026-10-10T21:05:55.058Z"
-    },
-    {
-      "id": "mv2vi82ryme7b",
-      "type": "channel",
-      "message": "JID Canale WhatsApp rilevato: 120363432155030916@newsletter",
-      "details": null,
-      "timestamp": "2026-10-10T20:55:13.251Z"
-    },
-    {
-      "id": "mv2vi82ooa6m6",
-      "type": "channel_post",
-      "message": "Pubblicato test nel canale WhatsApp",
-      "details": {
-        "channelJid": "120363432155030916@newsletter",
-        "type": "test",
-        "caption": "🔔 Messaggio di Test dal Bot WhatsApp Sacro Cuore!",
-        "messageId": "3EB0502E3777044DE21AC1"
-      },
-      "timestamp": "2026-10-10T20:55:13.248Z"
-    },
-    {
-      "id": "mv2vdkz9htr5l",
-      "type": "channel",
-      "message": "JID Canale WhatsApp rilevato: 120363432155030916@newsletter",
-      "details": null,
-      "timestamp": "2026-10-10T20:51:36.693Z"
-    },
-    {
-      "id": "mv2vdkz1fod1c",
-      "type": "channel_post",
-      "message": "Pubblicato IMAGE nel canale WhatsApp",
-      "details": {
-        "mediaType": "IMAGE",
-        "caption": "🟢XXVIII Domenica del Tempo Ordinario \n\nOrari dell",
-        "permalink": "https://www.instagram.com/p/DeRqUcuOGWd/"
-      },
-      "timestamp": "2026-10-10T20:51:36.685Z"
-    },
-    {
-      "id": "mv2vdkyzmxik5",
-      "type": "channel_post",
-      "message": "Pubblicato post nel canale WhatsApp",
-      "details": {
-        "channelJid": "120363432155030916@newsletter",
-        "type": "post",
-        "caption": "🟢XXVIII Domenica del Tempo Ordinario \n\nOrari dell",
-        "messageId": "3EB03818ABCFF9D12508EB"
-      },
-      "timestamp": "2026-10-10T20:51:36.683Z"
-    },
-    {
-      "id": "mv2vdg50sgi5r",
-      "type": "config",
-      "message": "Cronologia post del canale azzerata",
-      "details": null,
-      "timestamp": "2026-10-10T20:51:30.420Z"
-    },
-    {
-      "id": "mv2vdaqm56m2y",
-      "type": "auth",
-      "message": "Accesso effettuato con successo (admin@sacrocuoreasti.com)",
-      "details": null,
-      "timestamp": "2026-10-10T20:51:23.422Z"
-    },
-    {
-      "id": "mv2vcsv9woydw",
-      "type": "channel",
-      "message": "JID Canale WhatsApp rilevato: 120363432155030916@newsletter",
-      "details": null,
-      "timestamp": "2026-10-10T20:51:00.261Z"
-    },
-    {
-      "id": "mv2vcsv86jxvy",
-      "type": "channel_post",
-      "message": "Pubblicato test nel canale WhatsApp",
-      "details": {
-        "channelJid": "120363432155030916@newsletter",
-        "type": "test",
-        "caption": "🔔 Messaggio di Test con FOTO dal Bot WhatsApp Sac",
-        "messageId": "3EB0D7227A17A8F09B0866"
-      },
-      "timestamp": "2026-10-10T20:51:00.260Z"
-    },
-    {
-      "id": "mv2vcqz59l00a",
-      "type": "auth",
-      "message": "Accesso effettuato con successo (admin@sacrocuoreasti.com)",
-      "details": null,
-      "timestamp": "2026-10-10T20:50:57.809Z"
-    },
-    {
-      "id": "mv2vcolg1h0a1",
-      "type": "info",
-      "message": "Messaggio di avvenuto riavvio inviato a 393487856692",
-      "details": null,
-      "timestamp": "2026-10-10T20:50:54.724Z"
-    },
-    {
-      "id": "mv2vcmfvmwcu7",
-      "type": "success",
-      "message": "WhatsApp connesso con successo (+393792429531)",
-      "details": null,
-      "timestamp": "2026-10-10T20:50:51.931Z"
-    },
-    {
-      "id": "mv2vbwypunnmd",
-      "type": "channel",
-      "message": "JID Canale WhatsApp rilevato: 120363432155030916@newsletter",
-      "details": null,
-      "timestamp": "2026-10-10T20:50:18.913Z"
-    },
-    {
-      "id": "mv2vbwymcavdz",
-      "type": "channel_post",
-      "message": "Pubblicato test nel canale WhatsApp",
-      "details": {
-        "channelJid": "120363432155030916@newsletter",
-        "type": "test",
-        "caption": "🔔 Messaggio di Test con FOTO dal Bot WhatsApp Sac",
-        "messageId": "3EB0F2A060E9859A7B586A"
-      },
-      "timestamp": "2026-10-10T20:50:18.910Z"
-    },
-    {
-      "id": "mv2vbuyq64nes",
-      "type": "auth",
-      "message": "Accesso effettuato con successo (admin@sacrocuoreasti.com)",
-      "details": null,
-      "timestamp": "2026-10-10T20:50:16.322Z"
-    },
-    {
-      "id": "mv2vbflhcpjb3",
-      "type": "warning",
-      "message": "Tentativo di accesso fallito per undefined",
-      "details": null,
-      "timestamp": "2026-10-10T20:49:56.405Z"
-    },
-    {
-      "id": "mv2vb4407d73v",
-      "type": "info",
-      "message": "Messaggio di avvenuto riavvio inviato a 393487856692",
-      "details": null,
-      "timestamp": "2026-10-10T20:49:41.520Z"
-    },
-    {
-      "id": "mv2vb1ybwd83j",
-      "type": "success",
-      "message": "WhatsApp connesso con successo (+393792429531)",
-      "details": null,
-      "timestamp": "2026-10-10T20:49:38.723Z"
-    },
-    {
-      "id": "mv2v0fpn4lxpf",
-      "type": "channel",
-      "message": "JID Canale WhatsApp rilevato: 120363432155030916@newsletter",
-      "details": null,
-      "timestamp": "2026-10-10T20:41:23.339Z"
-    },
-    {
-      "id": "mv2uywchgt93u",
-      "type": "channel",
-      "message": "JID Canale WhatsApp rilevato: 120363432155030916@newsletter",
-      "details": null,
-      "timestamp": "2026-10-10T20:40:11.585Z"
-    },
-    {
-      "id": "mv2uywcf8x7qv",
-      "type": "channel_post",
-      "message": "Pubblicato test nel canale WhatsApp",
-      "details": {
-        "channelJid": "120363432155030916@newsletter",
-        "type": "test",
-        "caption": "🔔 Messaggio di Test dal Bot WhatsApp Sacro Cuore!",
-        "messageId": "3EB0F6B886094BC165D88B"
-      },
-      "timestamp": "2026-10-10T20:40:11.583Z"
-    },
-    {
-      "id": "mv2uytfjw1ypr",
-      "type": "channel",
-      "message": "JID Canale WhatsApp rilevato: 120363432155030916@newsletter",
-      "details": null,
-      "timestamp": "2026-10-10T20:40:07.807Z"
-    },
-    {
-      "id": "mv2uytfce245o",
-      "type": "channel_post",
-      "message": "Pubblicato test nel canale WhatsApp",
-      "details": {
-        "channelJid": "120363432155030916@newsletter",
-        "type": "test",
-        "caption": "🔔 Messaggio di Test con FOTO dal Bot WhatsApp Sac",
-        "messageId": "3EB0F8EF34023AD490BE36"
-      },
-      "timestamp": "2026-10-10T20:40:07.800Z"
-    },
-    {
-      "id": "mv2uy9mmcof98",
-      "type": "auth",
-      "message": "Accesso effettuato con successo (admin@sacrocuoreasti.com)",
-      "details": null,
-      "timestamp": "2026-10-10T20:39:42.142Z"
-    },
-    {
-      "id": "mv2uxjtheka03",
-      "type": "channel",
-      "message": "JID Canale WhatsApp rilevato: 120363432155030916@newsletter",
-      "details": null,
-      "timestamp": "2026-10-10T20:39:08.694Z"
-    },
-    {
-      "id": "mv2uxjtccx52m",
-      "type": "channel_post",
-      "message": "Pubblicato test nel canale WhatsApp",
-      "details": {
-        "channelJid": "120363432155030916@newsletter",
-        "type": "test",
-        "caption": "🔔 Messaggio di Test con FOTO dal Bot WhatsApp Sac",
-        "messageId": "3EB0D4F625110C3B858299"
-      },
-      "timestamp": "2026-10-10T20:39:08.688Z"
-    },
-    {
-      "id": "mv2uxidtjujjg",
-      "type": "auth",
-      "message": "Accesso effettuato con successo (admin@sacrocuoreasti.com)",
-      "details": null,
-      "timestamp": "2026-10-10T20:39:06.833Z"
-    },
-    {
-      "id": "mv2uxdmt98ylx",
-      "type": "info",
-      "message": "Messaggio di avvenuto riavvio inviato a 393487856692",
-      "details": null,
-      "timestamp": "2026-10-10T20:39:00.677Z"
-    },
-    {
-      "id": "mv2uxbhjt4321",
-      "type": "success",
-      "message": "WhatsApp connesso con successo (+393792429531)",
-      "details": null,
-      "timestamp": "2026-10-10T20:38:57.895Z"
-    },
-    {
-      "id": "mv2uice8uyyk9",
-      "type": "channel",
-      "message": "JID Canale WhatsApp rilevato: 120363432155030916@newsletter",
-      "details": null,
-      "timestamp": "2026-10-10T20:27:19.232Z"
-    },
-    {
-      "id": "mv2uice2x7nm0",
-      "type": "channel_post",
-      "message": "Pubblicato IMAGE nel canale WhatsApp",
-      "details": {
-        "mediaType": "IMAGE",
-        "caption": "🟢XXVIII Domenica del Tempo Ordinario \n\nOrari dell",
-        "permalink": "https://www.instagram.com/p/DeRqUcuOGWd/"
-      },
-      "timestamp": "2026-10-10T20:27:19.226Z"
-    },
-    {
-      "id": "mv2uice19pxho",
-      "type": "channel_post",
-      "message": "Pubblicato post nel canale WhatsApp",
-      "details": {
-        "channelJid": "120363432155030916@newsletter",
-        "type": "post",
-        "caption": "🟢XXVIII Domenica del Tempo Ordinario \n\nOrari dell",
-        "messageId": "3EB0645C30F75A5965F597"
-      },
-      "timestamp": "2026-10-10T20:27:19.225Z"
-    },
-    {
-      "id": "mv2ui8lr63vfx",
-      "type": "config",
-      "message": "Cronologia post del canale azzerata",
-      "details": null,
-      "timestamp": "2026-10-10T20:27:14.319Z"
-    },
-    {
-      "id": "mv2uhroopxnhy",
-      "type": "channel",
-      "message": "JID Canale WhatsApp rilevato: 120363432155030916@newsletter",
-      "details": null,
-      "timestamp": "2026-10-10T20:26:52.392Z"
-    },
-    {
-      "id": "mv2uhrol5j65w",
-      "type": "channel_post",
-      "message": "Pubblicato test nel canale WhatsApp",
-      "details": {
-        "channelJid": "120363432155030916@newsletter",
-        "type": "test",
-        "caption": "🔔 Messaggio di Test con FOTO dal Bot WhatsApp Sac",
-        "messageId": "3EB0FB31E0C3261A3FA0F8"
-      },
-      "timestamp": "2026-10-10T20:26:52.389Z"
-    },
-    {
-      "id": "mv2uho1tl9fko",
-      "type": "channel",
-      "message": "JID Canale WhatsApp rilevato: 120363432155030916@newsletter",
-      "details": null,
-      "timestamp": "2026-10-10T20:26:47.681Z"
-    },
-    {
-      "id": "mv2uho1qgoo3d",
-      "type": "channel_post",
-      "message": "Pubblicato test nel canale WhatsApp",
-      "details": {
-        "channelJid": "120363432155030916@newsletter",
-        "type": "test",
-        "caption": "🔔 Messaggio di Test dal Bot WhatsApp Sacro Cuore!",
-        "messageId": "3EB0D4509A4E44575BF2D3"
-      },
-      "timestamp": "2026-10-10T20:26:47.678Z"
     }
-  ],
-  "activeChannelMode": "test",
-  "channels": {
-    "test": {
-      "id": "test",
-      "name": "test bot (Canale Test)",
-      "link": "https://whatsapp.com/channel/0029Vb9EnnlKmCPKtLzdkb2i",
-      "jid": "120363432155030916@newsletter"
-    },
-    "official": {
-      "id": "official",
-      "name": "Sacro Cuore Asti (Canale Ufficiale)",
-      "link": "https://whatsapp.com/channel/0029VbC4hP4GZNCor76Om40q",
-      "jid": "120363423706225795@newsletter"
-    }
-  }
+  ]
 }

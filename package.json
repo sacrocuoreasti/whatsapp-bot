@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "postinstall": "node scripts/patch-baileys.js"
   },
   "engines": {
     "node": ">=16.0.0"
