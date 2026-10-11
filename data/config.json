@@ -74,6 +74,25 @@
   },
   "logs": [
     {
+      "id": "mv3rm4a4gvrql",
+      "type": "channel_post",
+      "message": "Pubblicato test nel canale WhatsApp",
+      "details": {
+        "channelJid": "120363432155030916@newsletter",
+        "type": "test",
+        "caption": "🔔 Messaggio di Test dal Bot WhatsApp (Canale Test",
+        "messageId": "3EB04D39D4C7F7846B45F4"
+      },
+      "timestamp": "2026-10-11T11:54:02.668Z"
+    },
+    {
+      "id": "mv3rlxmjbddbo",
+      "type": "auth",
+      "message": "Accesso effettuato con successo (admin@sacrocuoreasti.com)",
+      "details": null,
+      "timestamp": "2026-10-11T11:53:54.043Z"
+    },
+    {
       "id": "mv3rcb8b5bpr8",
       "type": "channel_post",
       "message": "Pubblicato test nel canale WhatsApp",
@@ -828,28 +847,6 @@
       "message": "JID Canale WhatsApp rilevato automaticamente: 120363423706225795@newsletter (Sacro Cuore Asti)",
       "details": null,
       "timestamp": "2026-10-10T22:40:21.465Z"
-    },
-    {
-      "id": "mv2ypzi2j4qvs",
-      "type": "send",
-      "message": "Messaggio inviato a 393487856692",
-      "details": {
-        "jid": "393487856692@s.whatsapp.net",
-        "preview": "🚀 Test invio da Gateway WhatsApp Sacro Cuore Asti!",
-        "messageId": "3EB01251EC7AAA80F615E3"
-      },
-      "timestamp": "2026-10-10T22:25:14.235Z"
-    },
-    {
-      "id": "mv2ynfwohodfb",
-      "type": "send",
-      "message": "Messaggio inviato a 393487856692",
-      "details": {
-        "jid": "393487856692@s.whatsapp.net",
-        "preview": "🚀 Test invio da Gateway WhatsApp Sacro Cuore Asti!",
-        "messageId": "3EB0F734AC8127657ACCD1"
-      },
-      "timestamp": "2026-10-10T22:23:15.528Z"
     }
   ]
 }
