@@ -214,13 +214,29 @@ async function handleWebhookStory(payload) {
   return result;
 }
 
+// Recupera i JID dei canali di destinazione (test, official o entrambi)
+function getTargetChannelJids(config) {
+  const mode = config.activeChannelMode || 'test';
+  const testJid = config.channels?.test?.jid || '120363432155030916@newsletter';
+  const officialJid = config.channels?.official?.jid || '120363423706225795@newsletter';
+
+  if (mode === 'both') {
+    return [testJid, officialJid];
+  } else if (mode === 'official') {
+    return [officialJid];
+  } else {
+    return [testJid];
+  }
+}
+
 // Sincronizza Post, Caroselli e Reel da Instagram al Canale WhatsApp
 async function syncFeedToChannel(options = {}) {
   const config = getConfig();
   const igConfig = config.instagram || {};
   const channelConfig = config.channel || {};
 
-  if (!channelConfig.jid) {
+  const targetJids = getTargetChannelJids(config);
+  if (!targetJids.length && !channelConfig.jid) {
     throw new Error('Nessun canale WhatsApp configurato. Inserisci il link o JID del canale nelle impostazioni.');
   }
 
@@ -309,12 +325,14 @@ async function syncFeedToChannel(options = {}) {
           } catch (e) {}
         }
 
-        await sendToChannel(channelConfig.jid, {
-          type: 'post',
-          imageUrl,
-          caption,
-          link: permalink
-        });
+        for (const destJid of targetJids) {
+          await sendToChannel(destJid, {
+            type: 'post',
+            imageUrl,
+            caption,
+            link: permalink
+          });
+        }
         publishedIds.add(item.id);
         newPublishedCount++;
       } else if (mediaType === 'CAROUSEL_ALBUM') {
@@ -328,21 +346,25 @@ async function syncFeedToChannel(options = {}) {
           } catch (e) {}
         }
 
-        await sendToChannel(channelConfig.jid, {
-          type: 'carosello',
-          imageUrl,
-          caption,
-          link: permalink
-        });
+        for (const destJid of targetJids) {
+          await sendToChannel(destJid, {
+            type: 'carosello',
+            imageUrl,
+            caption,
+            link: permalink
+          });
+        }
         publishedIds.add(item.id);
         newPublishedCount++;
       } else if (mediaType === 'VIDEO') {
         // - reel ig -> descrizione + link ig
-        await sendToChannel(channelConfig.jid, {
-          type: 'reel',
-          caption,
-          link: permalink
-        });
+        for (const destJid of targetJids) {
+          await sendToChannel(destJid, {
+            type: 'reel',
+            caption,
+            link: permalink
+          });
+        }
         publishedIds.add(item.id);
         newPublishedCount++;
       }

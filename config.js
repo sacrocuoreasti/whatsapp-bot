@@ -14,12 +14,29 @@ function generateToken() {
   return 'sc_' + crypto.randomBytes(24).toString('hex');
 }
 
+const PRESET_CHANNELS = {
+  test: {
+    id: 'test',
+    name: 'test bot (Canale Test)',
+    link: 'https://whatsapp.com/channel/0029Vb9EnnlKmCPKtLzdkb2i',
+    jid: '120363432155030916@newsletter'
+  },
+  official: {
+    id: 'official',
+    name: 'Sacro Cuore Asti (Canale Ufficiale)',
+    link: 'https://whatsapp.com/channel/0029VbC4hP4GZNCor76Om40q',
+    jid: '120363423706225795@newsletter'
+  }
+};
+
 const DEFAULT_CONFIG = {
   adminEmail: 'admin@sacrocuoreasti.com',
   adminPassword: 'admin123',
   apiToken: generateToken(),
   adminNotifyNumber: '393487856692',
   serverUrl: '', // Se vuoto, viene dedotto automaticamente dalla richiesta
+  activeChannelMode: 'test', // 'test', 'official', 'both'
+  channels: { ...PRESET_CHANNELS },
   instagram: {
     enabled: false,
     appId: '',
@@ -31,10 +48,10 @@ const DEFAULT_CONFIG = {
     webhookVerifyToken: crypto.randomBytes(16).toString('hex')
   },
   channel: {
-    enabled: false,
-    link: '',
-    jid: '',
-    name: '',
+    enabled: true,
+    link: PRESET_CHANNELS.test.link,
+    jid: PRESET_CHANNELS.test.jid,
+    name: PRESET_CHANNELS.test.name,
     publishedPostIds: []
   },
   logs: []
@@ -46,7 +63,28 @@ function loadConfig() {
   try {
     if (fs.existsSync(CONFIG_FILE)) {
       const data = JSON.parse(fs.readFileSync(CONFIG_FILE, 'utf8'));
-      currentConfig = { ...DEFAULT_CONFIG, ...data };
+      currentConfig = {
+        ...DEFAULT_CONFIG,
+        ...data,
+        channels: {
+          test: { ...PRESET_CHANNELS.test, ...(data.channels?.test || {}) },
+          official: { ...PRESET_CHANNELS.official, ...(data.channels?.official || {}) }
+        }
+      };
+
+      if (!currentConfig.activeChannelMode) {
+        currentConfig.activeChannelMode = 'test';
+      }
+
+      const activePreset = currentConfig.channels[currentConfig.activeChannelMode === 'official' ? 'official' : 'test'] || currentConfig.channels.test;
+      if (!currentConfig.channel || !currentConfig.channel.jid) {
+        currentConfig.channel = {
+          enabled: true,
+          ...activePreset,
+          publishedPostIds: currentConfig.channel?.publishedPostIds || []
+        };
+      }
+
       if (!currentConfig.apiToken) {
         currentConfig.apiToken = generateToken();
         saveConfig();

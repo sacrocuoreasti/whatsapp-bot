@@ -454,57 +454,80 @@ Verify Token: <span id="meta-webhook-verify-token">...</span></code></pre>
             </ul>
           </div>
 
-          <form id="channel-form">
-            <div class="form-group">
-              <label for="channel-link">Link Canale WhatsApp</label>
-              <div class="input-with-button">
-                <input type="text" id="channel-link" placeholder="https://whatsapp.com/channel/0029Vb..." required>
-                <button type="submit" id="btn-save-channel" class="btn btn-primary" title="Collega e Salva Canale">
-                  💾 Salva & Collega
-                </button>
-              </div>
-              <small class="hint">Incolla semplicemente il link d'invito del tuo canale (es. <code>https://whatsapp.com/channel/...</code>). Il bot ricaverà automaticamente il nome e l'identificativo del canale.</small>
-            </div>
-
-            <!-- Box di stato del canale collegato -->
-            <div id="channel-status-badge" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(148, 163, 184, 0.2); border-radius: 8px; margin-bottom: 14px;">
-              <div style="display: flex; align-items: center; gap: 10px;">
-                <span id="channel-status-dot" style="width: 10px; height: 10px; border-radius: 50%; background: #64748b; display: inline-block;"></span>
+          <!-- Scelta Canale di Destinazione -->
+          <div style="background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(148, 163, 184, 0.2); border-radius: 10px; padding: 16px; margin-bottom: 16px;">
+            <label style="display: block; font-weight: 700; font-size: 0.95rem; color: #38bdf8; margin-bottom: 10px;">
+              🎯 Canale di Destinazione per Post & Reel Instagram:
+            </label>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px;">
+              
+              <!-- Canale Test -->
+              <label id="card-channel-test" style="display: flex; align-items: flex-start; gap: 10px; padding: 12px; border-radius: 8px; border: 2px solid #3b82f6; background: rgba(59, 130, 246, 0.1); cursor: pointer; transition: all 0.2s;">
+                <input type="radio" name="channelModeRadio" value="test" checked style="margin-top: 3px; cursor: pointer;">
                 <div>
-                  <div id="channel-status-title" style="font-weight: 600; font-size: 0.9rem; color: #f8fafc;">Nessun canale collegato</div>
-                  <div id="channel-status-jid" style="font-size: 0.75rem; color: #94a3b8; font-family: monospace;">Inserisci il link sopra e clicca Salva</div>
+                  <div style="font-weight: 600; color: #fff; font-size: 0.9rem;">🧪 Canale di Test (test bot)</div>
+                  <div style="font-size: 0.75rem; color: #94a3b8; font-family: monospace;">120363432155030916@newsletter</div>
+                  <a href="https://whatsapp.com/channel/0029Vb9EnnlKmCPKtLzdkb2i" target="_blank" style="font-size: 0.75rem; color: #60a5fa; text-decoration: underline;">Apri link canale</a>
                 </div>
-              </div>
-              <input type="hidden" id="channel-jid">
-              <input type="hidden" id="channel-name">
-            </div>
-
-            <div class="form-group" style="display: flex; align-items: center; gap: 10px; margin-top: 10px;">
-              <input type="checkbox" id="channel-sync-enabled" checked style="width: 18px; height: 18px;">
-              <label for="channel-sync-enabled" style="margin-bottom: 0; cursor: pointer;">
-                Attiva sincronizzazione automatica del Canale in background
               </label>
+
+              <!-- Canale Ufficiale -->
+              <label id="card-channel-official" style="display: flex; align-items: flex-start; gap: 10px; padding: 12px; border-radius: 8px; border: 1px solid rgba(148, 163, 184, 0.3); background: rgba(15, 23, 42, 0.6); cursor: pointer; transition: all 0.2s;">
+                <input type="radio" name="channelModeRadio" value="official" style="margin-top: 3px; cursor: pointer;">
+                <div>
+                  <div style="font-weight: 600; color: #fff; font-size: 0.9rem;">⛪ Canale Ufficiale (Sacro Cuore Asti)</div>
+                  <div style="font-size: 0.75rem; color: #94a3b8; font-family: monospace;">120363423706225795@newsletter</div>
+                  <a href="https://whatsapp.com/channel/0029VbC4hP4GZNCor76Om40q" target="_blank" style="font-size: 0.75rem; color: #60a5fa; text-decoration: underline;">Apri link canale</a>
+                </div>
+              </label>
+
+              <!-- Entrambi -->
+              <label id="card-channel-both" style="display: flex; align-items: flex-start; gap: 10px; padding: 12px; border-radius: 8px; border: 1px solid rgba(148, 163, 184, 0.3); background: rgba(15, 23, 42, 0.6); cursor: pointer; transition: all 0.2s;">
+                <input type="radio" name="channelModeRadio" value="both" style="margin-top: 3px; cursor: pointer;">
+                <div>
+                  <div style="font-weight: 600; color: #fff; font-size: 0.9rem;">🚀 Entrambi i Canali</div>
+                  <div style="font-size: 0.75rem; color: #94a3b8;">Pubblica contemporaneamente sia sul Test che sull'Ufficiale</div>
+                </div>
+              </label>
+
             </div>
 
-            <div class="card-action-bar mt-3" style="display: flex; flex-wrap: wrap; gap: 10px;">
-              <button type="button" id="btn-sync-channel-now" class="btn btn-success">
-                <span class="btn-text">🔄 Sincronizza Canale Adesso</span>
+            <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(148, 163, 184, 0.15);">
+              <label style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: #cbd5e1; cursor: pointer; margin: 0;">
+                <input type="checkbox" id="channel-sync-enabled" checked style="width: 16px; height: 16px;">
+                Attiva sincronizzazione automatica feed Instagram verso la destinazione selezionata
+              </label>
+              <button type="button" id="btn-save-channel-mode" class="btn btn-primary btn-sm">
+                💾 Salva Destinazione
+              </button>
+            </div>
+          </div>
+
+          <!-- Pulsanti di Prova Indipendenti e Sincronizzazione -->
+          <div style="margin-bottom: 14px;">
+            <div style="font-size: 0.85rem; font-weight: 600; color: #94a3b8; margin-bottom: 8px;">🧪 Test Invio Diretto nel Canale:</div>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+              <button type="button" id="btn-test-channel-test" class="btn btn-secondary btn-sm" title="Invia messaggio di testo al canale test bot">
+                🧪 Prova Testo (Test)
+              </button>
+              <button type="button" id="btn-test-photo-channel-test" class="btn btn-secondary btn-sm" title="Invia foto al canale test bot">
+                📸 Prova Foto (Test)
+              </button>
+              <button type="button" id="btn-test-channel-official" class="btn btn-secondary btn-sm" title="Invia messaggio di testo al canale ufficiale">
+                ⛪ Prova Testo (Ufficiale)
+              </button>
+              <button type="button" id="btn-test-photo-channel-official" class="btn btn-secondary btn-sm" title="Invia foto al canale ufficiale">
+                📸 Prova Foto (Ufficiale)
+              </button>
+              <button type="button" id="btn-sync-channel-now" class="btn btn-success btn-sm">
+                <span class="btn-text">🔄 Sincronizza Instagram Adesso</span>
                 <span class="spinner" style="display: none;"></span>
               </button>
-              <button type="button" id="btn-test-channel" class="btn btn-secondary">
-                🔔 Messaggio di Prova
-              </button>
-              <button type="button" id="btn-test-photo-channel" class="btn btn-secondary">
-                📸 Prova Foto nel Canale
-              </button>
-              <button type="button" id="btn-clear-channel-history" class="btn btn-outline-danger btn-xs" title="Azzera la cronologia dei post per permettere una nuova sincronizzazione">
+              <button type="button" id="btn-clear-channel-history" class="btn btn-outline-danger btn-xs" title="Azzera la cronologia dei post per ripubblicarli">
                 🗑️ Azzera Cronologia Post
               </button>
-              <button type="button" id="btn-reset-channel" class="btn btn-danger btn-xs" title="Resetta completamente il canale (rimuove link e storico)">
-                ⚠️ Scollega Canale
-              </button>
             </div>
-          </form>
+          </div>
 
           <div id="channel-result-box" class="test-result-box" style="display: none; margin-top: 14px;"></div>
         </div>

@@ -303,11 +303,28 @@ app.get('/api/channel/my-channels', requireWebAuth, async (req, res) => {
   }
 });
 
-// Salva impostazioni canale WhatsApp (con auto-risoluzione del link)
+// Salva impostazioni canale WhatsApp (supporta canali Test, Ufficiale o Entrambi)
 app.post('/api/channel/update', requireWebAuth, async (req, res) => {
-  let { link, jid, name, enabled } = req.body;
+  let { activeChannelMode, link, jid, name, enabled } = req.body;
   const config = getConfig();
   const currentChannel = config.channel || {};
+
+  // Cambio modalità canale rapido (test, official o both)
+  if (activeChannelMode && ['test', 'official', 'both'].includes(activeChannelMode)) {
+    const targetPreset = config.channels?.[activeChannelMode === 'official' ? 'official' : 'test'] || config.channels?.test;
+    const updatedChannel = {
+      ...currentChannel,
+      ...targetPreset,
+      enabled: enabled !== undefined ? !!enabled : (currentChannel.enabled !== false)
+    };
+    updateConfig({
+      activeChannelMode,
+      channel: updatedChannel
+    });
+    instagram.startInstagramPolling();
+    addLog('config', `Canale di destinazione impostato su: ${activeChannelMode} (${updatedChannel.name})`);
+    return res.json({ success: true, activeChannelMode, channel: updatedChannel });
+  }
 
   link = String(link || '').trim();
 
@@ -319,12 +336,6 @@ app.post('/api/channel/update', requireWebAuth, async (req, res) => {
       if (resolved?.name) name = resolved.name;
     } catch (err) {
       console.warn('Auto-resolve link durante salvataggio:', err.message);
-      if (!jid && !currentChannel.jid) {
-        return res.status(400).json({
-          success: false,
-          error: `Impossibile risolvere il link "${link}". Verifica che il link sia valido e che WhatsApp sia connesso.`
-        });
-      }
     }
   }
 
@@ -339,7 +350,7 @@ app.post('/api/channel/update', requireWebAuth, async (req, res) => {
   updateConfig({ channel: updatedChannel });
   instagram.startInstagramPolling();
   addLog('config', 'Impostazioni Canale WhatsApp aggiornate', { link: updatedChannel.link, jid: updatedChannel.jid, name: updatedChannel.name });
-  res.json({ success: true, channel: updatedChannel });
+  res.json({ success: true, channel: updatedChannel, activeChannelMode: config.activeChannelMode || 'test' });
 });
 
 // Sincronizza subito i contenuti Instagram (Post, Caroselli, Reel) nel canale
@@ -353,24 +364,35 @@ app.post('/api/channel/sync-now', requireWebAuth, async (req, res) => {
   }
 });
 
-// Invia un messaggio di test nel canale
+// Invia un messaggio di test nel canale (supporta channelType 'test' o 'official')
 app.post('/api/channel/test-send', requireWebAuth, async (req, res) => {
   const config = getConfig();
-  const target = req.body.jid || req.body.link || config.channel?.jid || config.channel?.link;
+  const channelType = req.body.channelType; // 'test' | 'official'
+  let target = req.body.jid || req.body.link;
+
+  if (channelType === 'official') {
+    target = config.channels?.official?.jid || '120363423706225795@newsletter';
+  } else if (channelType === 'test') {
+    target = config.channels?.test?.jid || '120363432155030916@newsletter';
+  } else if (!target) {
+    target = config.channel?.jid || config.channels?.test?.jid;
+  }
+
   if (!target) {
     return res.status(400).json({ success: false, error: 'Nessun link o JID canale specificato o salvato.' });
   }
 
   try {
     const imageUrl = req.body.imageUrl || (req.body.withImage ? 'https://picsum.photos/800/800' : null);
+    const channelLabel = channelType === 'official' ? 'Canale Ufficiale Sacro Cuore' : 'Canale Test bot';
     const result = await whatsapp.sendToChannel(target, {
       type: 'test',
       imageUrl,
       caption: imageUrl
-        ? `🔔 Messaggio di Test con FOTO dal Bot WhatsApp Sacro Cuore!\n\nSe vedi questa foto, la sincronizzazione immagini è perfettamente funzionante!`
-        : `🔔 Messaggio di Test dal Bot WhatsApp Sacro Cuore!\n\nIl collegamento con il canale è attivo e pronto a sincronizzare Post, Caroselli e Reel da Instagram.`
+        ? `🔔 Messaggio di Test con FOTO (${channelLabel})!\n\nSe vedi questa foto, il canale è perfettamente collegato!`
+        : `🔔 Messaggio di Test dal Bot WhatsApp (${channelLabel})!\n\nIl collegamento è attivo e funzionante.`
     });
-    res.json({ success: true, result });
+    res.json({ success: true, result, target });
   } catch (err) {
     res.status(400).json({ success: false, error: err.message });
   }
